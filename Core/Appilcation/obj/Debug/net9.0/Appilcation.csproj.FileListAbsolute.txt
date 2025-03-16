@@ -1,0 +1,15 @@
+C:\Users\ROG\Desktop\MyProjectTemp\Backend\BackTemp\Core\Appilcation\bin\Debug\net9.0\Appilcation.deps.json
+C:\Users\ROG\Desktop\MyProjectTemp\Backend\BackTemp\Core\Appilcation\bin\Debug\net9.0\Appilcation.dll
+C:\Users\ROG\Desktop\MyProjectTemp\Backend\BackTemp\Core\Appilcation\bin\Debug\net9.0\Appilcation.pdb
+C:\Users\ROG\Desktop\MyProjectTemp\Backend\BackTemp\Core\Appilcation\bin\Debug\net9.0\Domain.dll
+C:\Users\ROG\Desktop\MyProjectTemp\Backend\BackTemp\Core\Appilcation\bin\Debug\net9.0\Domain.pdb
+C:\Users\ROG\Desktop\MyProjectTemp\Backend\BackTemp\Core\Appilcation\obj\Debug\net9.0\Appilcation.csproj.AssemblyReference.cache
+C:\Users\ROG\Desktop\MyProjectTemp\Backend\BackTemp\Core\Appilcation\obj\Debug\net9.0\Appilcation.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ROG\Desktop\MyProjectTemp\Backend\BackTemp\Core\Appilcation\obj\Debug\net9.0\Appilcation.AssemblyInfoInputs.cache
+C:\Users\ROG\Desktop\MyProjectTemp\Backend\BackTemp\Core\Appilcation\obj\Debug\net9.0\Appilcation.AssemblyInfo.cs
+C:\Users\ROG\Desktop\MyProjectTemp\Backend\BackTemp\Core\Appilcation\obj\Debug\net9.0\Appilcation.csproj.CoreCompileInputs.cache
+C:\Users\ROG\Desktop\MyProjectTemp\Backend\BackTemp\Core\Appilcation\obj\Debug\net9.0\Appilcat.7F1B7606.Up2Date
+C:\Users\ROG\Desktop\MyProjectTemp\Backend\BackTemp\Core\Appilcation\obj\Debug\net9.0\Appilcation.dll
+C:\Users\ROG\Desktop\MyProjectTemp\Backend\BackTemp\Core\Appilcation\obj\Debug\net9.0\refint\Appilcation.dll
+C:\Users\ROG\Desktop\MyProjectTemp\Backend\BackTemp\Core\Appilcation\obj\Debug\net9.0\Appilcation.pdb
+C:\Users\ROG\Desktop\MyProjectTemp\Backend\BackTemp\Core\Appilcation\obj\Debug\net9.0\ref\Appilcation.dll
