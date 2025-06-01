@@ -1,9 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{93FE5422-E692-48D7-9302-6BBA5CC26483}"
-	ProjectSection(SolutionItems) = preProject
-		Core\.gitignore = Core\.gitignore
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{30E538D3-0EB8-4C5C-91FC-784BD5E5D41F}"
 EndProject
@@ -15,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthApi", "Presentation\Aut
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Appilcation", "Core\Appilcation\Appilcation.csproj", "{216993C9-83B7-4529-9C3D-C9A5728592F9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersistenceOracle", "Infrastructure\PersistenceOracle\PersistenceOracle.csproj", "{52E00ECE-04CA-4EE7-A603-BE1777A105E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +23,7 @@ Global
 		{10F2D62E-903F-4B7E-AE28-7201E0F8BB73} = {93FE5422-E692-48D7-9302-6BBA5CC26483}
 		{9C493CAB-516D-47F6-B36D-48DD85C483F0} = {F5813053-FA17-4592-9C98-EB4B524A95A0}
 		{216993C9-83B7-4529-9C3D-C9A5728592F9} = {93FE5422-E692-48D7-9302-6BBA5CC26483}
+		{52E00ECE-04CA-4EE7-A603-BE1777A105E1} = {30E538D3-0EB8-4C5C-91FC-784BD5E5D41F}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{10F2D62E-903F-4B7E-AE28-7201E0F8BB73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -38,5 +38,9 @@ Global
 		{216993C9-83B7-4529-9C3D-C9A5728592F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{216993C9-83B7-4529-9C3D-C9A5728592F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{216993C9-83B7-4529-9C3D-C9A5728592F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52E00ECE-04CA-4EE7-A603-BE1777A105E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52E00ECE-04CA-4EE7-A603-BE1777A105E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52E00ECE-04CA-4EE7-A603-BE1777A105E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52E00ECE-04CA-4EE7-A603-BE1777A105E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
