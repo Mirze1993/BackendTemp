@@ -7,8 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="DTO\" />
-      <Folder Include="Request\" />
+      <ProjectReference Include="..\..\Core\Appilcation\Appilcation.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Dapper" Version="2.1.66" />
+      <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.8.0" />
     </ItemGroup>
 
 </Project>
