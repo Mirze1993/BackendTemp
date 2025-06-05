@@ -3,11 +3,12 @@ using Appilcation.IRepository;
 using Appilcation.Tool;
 using Asp.Versioning;
 using Domain;
-using Domain.Dto;
-using Domain.ReqRespModel;
+using Domain.DTO.User;
+using Domain.Request.User;
+using Domain.Response;
 using Domain.RoutePaths;
-using Domain.Tool;
 using Microsoft.AspNetCore.Mvc;
+using GenTokenDto = Domain.Tool.GenTokenDto;
 
 namespace AuthApi.Controller.V1;
 
@@ -57,6 +58,6 @@ public class AuthController (IConfiguration configuration,IUserRepository reposi
 
         // if (!await _repository.SuccesLogin(refToken, user.Id))
         //     throw new Exception("Login Fallied");
-        return new LoginResp( token,  refToken );
+        return new LoginResp(  ){Token = token, RefreshToken = refToken};
     }
 }

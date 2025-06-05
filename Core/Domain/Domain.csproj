@@ -11,4 +11,8 @@
       <Folder Include="Request\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="ReqRespModel\LoginReq.cs" />
+    </ItemGroup>
+
 </Project>
