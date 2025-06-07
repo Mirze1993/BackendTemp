@@ -47,65 +47,72 @@ public class Result<T>
 
 public static class ExtensionResult
 {
-    public static Result<T> SuccessResult<T> (this object o)
+    public static Result<T> SuccessResult<T>(this T o)
     {
-        return new Result<T> { Success = true, Value =(T) o };
-    }
-}
-
-public class SocketResult
-{
-    public SocketResult(string dataType)
-    {
-        DataType = dataType;
+        return Result<T>.SuccessResult(o);
     }
 
-    public string DataType { get; set; } = string.Empty;
-    public bool Success { get; set; } = true;
-    public string ErrorMessage { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
-
-    public static SocketResult SuccessResult(string dataType = "generic")
+    public static async Task<Result<T>> SuccessResult<T>(this Task<T> o)
     {
-        return new SocketResult(dataType);
+        T result = await o;
+        return Result<T>.SuccessResult(result);
     }
 
-    public static SocketResult ErrorResult(string message, string dataType = "generic")
+    public class SocketResult
     {
-        return new SocketResult(dataType) { ErrorMessage = message, Success = false };
+        public SocketResult(string dataType)
+        {
+            DataType = dataType;
+        }
+
+        public string DataType { get; set; } = string.Empty;
+        public bool Success { get; set; } = true;
+        public string ErrorMessage { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+
+        public static SocketResult SuccessResult(string dataType = "generic")
+        {
+            return new SocketResult(dataType);
+        }
+
+        public static SocketResult ErrorResult(string message, string dataType = "generic")
+        {
+            return new SocketResult(dataType) { ErrorMessage = message, Success = false };
+        }
+
+        public static SocketResult ErrorResult(string message, string description, string dataType = "generic")
+        {
+            return new SocketResult(dataType) { ErrorMessage = message, Description = description, Success = false };
+        }
     }
 
-    public static SocketResult ErrorResult(string message, string description, string dataType = "generic")
+    public class SocketResult<T>
     {
-        return new SocketResult(dataType) { ErrorMessage = message, Description = description, Success = false };
-    }
-}
+        public SocketResult(string dataType)
+        {
+            DataType = dataType;
+        }
 
-public class SocketResult<T>
-{
-    public SocketResult(string dataType)
-    {
-        DataType = dataType;
-    }
+        public string DataType { get; set; } = string.Empty;
+        public bool Success { get; set; } = true;
+        public string ErrorMessage { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public T? Value { get; set; }
 
-    public string DataType { get; set; } = string.Empty;
-    public bool Success { get; set; } = true;
-    public string ErrorMessage { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
-    public T? Value { get; set; }
+        public static SocketResult<T> SuccessResult(T t, string dataType = "generic")
+        {
+            return new SocketResult<T>(dataType) { Value = t };
+        }
 
-    public static SocketResult<T> SuccessResult(T t, string dataType = "generic")
-    {
-        return new SocketResult<T>(dataType) { Value = t };
-    }
+        public static SocketResult<T> ErrorResult(string message, string dataType = "generic")
+        {
+            return new SocketResult<T>(dataType) { ErrorMessage = message, Success = false };
+        }
 
-    public static SocketResult<T> ErrorResult(string message, string dataType = "generic")
-    {
-        return new SocketResult<T>(dataType) { ErrorMessage = message, Success = false };
-    }
-
-    public static SocketResult<T> ErrorResult(string message, string description, string dataType = "generic")
-    {
-        return new SocketResult<T>(dataType) { ErrorMessage = message, Description = description, Success = false };
+        public static SocketResult<T> ErrorResult(string message, string description, string dataType = "generic")
+        {
+            return new SocketResult<T>(dataType) { ErrorMessage = message, Description = description, Success = false };
+        }
+        
     }
 }

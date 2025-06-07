@@ -1,3 +1,4 @@
+using System.Data.Common;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -15,7 +16,12 @@ public class CommonExceptionFilter(ILogger<CommonExceptionFilter> logger) : IExc
         _logger.LogError(context.Exception,"Common log exception");
         var result = new Result
         {
-            Success = false, ErrorMessage = context.Exception.Message,
+            Success = false, 
+            ErrorMessage =context.Exception switch
+            {
+                DbException e => Translate( e),
+                _ =>context.Exception.Message
+            },
             Description = context.Exception switch
             {
                 _ => ""
@@ -23,6 +29,16 @@ public class CommonExceptionFilter(ILogger<CommonExceptionFilter> logger) : IExc
         };
         context.Result = new ObjectResult(result);
         context.ExceptionHandled = true;
+    }
+
+    private static string Translate(DbException ex)
+    {
+        return ex.Message switch
+        {
+            { } msg when msg.Contains("ORA-20002") => "Data already exists",
+            { } msg when msg.Contains("ORA-00001") => "Unique constraint violated",
+            _ => "Unknown error"
+        };
     }
 
 }

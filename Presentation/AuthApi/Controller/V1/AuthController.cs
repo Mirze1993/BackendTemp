@@ -36,12 +36,13 @@ public class AuthController (IConfiguration configuration,IUserRepository reposi
             throw new Exception("Password incorrect");
         }
 
-        return (await CreateToken(user)).SuccessResult<LoginResp>();
+        return await CreateToken(user).SuccessResult<LoginResp>();
     }
     
     [HttpPost(RoutePaths.Register),CommonException]
-    public void Register()
+    public async Task<Result<int>> Register([FromBody] RegisterUserDto req)
     {
+       return await repository.Register(req).SuccessResult<int>();
     }
     
     private async Task<LoginResp> CreateToken(GetUserDto user)

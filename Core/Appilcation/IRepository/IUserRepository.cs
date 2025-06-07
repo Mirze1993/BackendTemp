@@ -9,7 +9,7 @@ public interface IUserRepository
 {
     Task<int> Register(RegisterUserDto dto);
 
-    Task<GetUserDto> GetUserByEmail(string email);
+    Task<GetUserDto?> GetUserByEmail(string email);
 
     Task<GetUserDto> GetByRefreshToken(string refToken, int id);
     Task<bool> SuccessLogin(string refToken, int id);

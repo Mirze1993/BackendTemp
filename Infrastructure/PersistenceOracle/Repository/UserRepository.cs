@@ -39,7 +39,7 @@ public class UserRepository : IUserRepository
         return id;
     }
 
-    public async Task<GetUserDto> GetUserByEmail(string email)
+    public async Task<GetUserDto?> GetUserByEmail(string email)
     {
         await using var db = new OracleDb();
         var query = @"
@@ -51,7 +51,7 @@ SELECT Id,
 FROM APP_USER
 WHERE Email = :P_EMAIL
 ";
-        return await db.Connection.QueryFirstAsync<GetUserDto>(query, new
+        return await db.Connection.QueryFirstOrDefaultAsync<GetUserDto>(query, new
         {
             P_EMAIL = email,
         });
@@ -132,7 +132,7 @@ WHERE AppUserId = :P_AppUserId");
             pr.Add(new OracleParameter("P_Type", OracleDbType.NVarchar2, claimType, ParameterDirection.Input));
         }
 
-        var t = query.ToString();
+        
         return (await db.Connection.QueryAsync<UserClaims>(
             query.ToString(),
             pr

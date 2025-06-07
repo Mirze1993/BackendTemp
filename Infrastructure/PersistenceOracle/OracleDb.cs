@@ -37,7 +37,7 @@ public class OracleDb : IAsyncDisposable
         if (user == null) throw new ArgumentNullException(nameof(user));
         if (string.IsNullOrEmpty(_connectionString))
             _connectionString =
-                $"Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST={dbHost})(PORT={port})))(CONNECT_DATA=(SERVER=DEDICATED)(SID={serviceName})));User Id={user};Password={pass};Min Pool Size=1;Max Pool Size={maxPoolSize};Pooling=True;Validate Connection=true;Connection Lifetime=3600;Self Tuning=False;Connection Timeout={timeout};";
+                $"Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST={dbHost})(PORT={port})))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME={serviceName})));User Id={user};Password={pass};Min Pool Size=1;Max Pool Size={maxPoolSize};Pooling=True;Validate Connection=true;Connection Lifetime=3600;Self Tuning=False;Connection Timeout={timeout};";
     }
 
     public async Task CheckConnection()
