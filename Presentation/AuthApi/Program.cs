@@ -61,6 +61,9 @@ app.UseCors("AllowAllOrigins");
 //app.UseRouting();
 app.UseMiddleware<ReqRespLogMiddleware>();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseHttpsRedirection();
 app.UseAuth();
 

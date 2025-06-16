@@ -112,10 +112,8 @@ WHERE Refresh_Token = :P_ref_tok AND Id = :P_Id";
     public async Task<List<UserClaims>> GetClaims(int userId, string claimType)
     {
         await using var db = new OracleDb();
-        var pr = new List<OracleParameter>
-        {
-            new("P_AppUserId", OracleDbType.Int32, userId, ParameterDirection.Input)
-        };
+        var pr = new DynamicParameters();
+        pr.Add("P_AppUserId", userId);
         StringBuilder query = new(@"SELECT Id,
        CreateDate,
        LeastUpdate,
@@ -129,10 +127,9 @@ WHERE AppUserId = :P_AppUserId");
         if (!string.IsNullOrEmpty(claimType))
         {
             query.Append(" and Type=:P_Type ");
-            pr.Add(new OracleParameter("P_Type", OracleDbType.NVarchar2, claimType, ParameterDirection.Input));
+            pr.Add("P_Type", claimType);
         }
 
-        
         return (await db.Connection.QueryAsync<UserClaims>(
             query.ToString(),
             pr
