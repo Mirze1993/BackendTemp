@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Appilcation.CustomMiddleware;
 using Appilcation.ExtensionMethods;
 using Appilcation.IRepository;
@@ -17,6 +18,12 @@ builder.Services.AddOpenApiCustomer(builder.Configuration);
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
 await builder.Services.OracleDbConfig(builder.Configuration);
+
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 
 #region Logging
 // builder.Logging.ClearProviders();
@@ -61,8 +68,6 @@ app.UseCors("AllowAllOrigins");
 //app.UseRouting();
 app.UseMiddleware<ReqRespLogMiddleware>();
 
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.UseHttpsRedirection();
 app.UseAuth();

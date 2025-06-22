@@ -19,7 +19,7 @@ public class TokenTool
         var claims = new List<Claim>
         {
             new("Name", dto.Name ?? ""),
-            new("Email", dto.Name ?? ""),
+            new("Email", dto.Email ?? ""),
             new("Id", dto.Id.ToString() ?? "")
         };
 

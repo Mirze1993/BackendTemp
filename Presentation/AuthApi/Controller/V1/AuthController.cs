@@ -55,6 +55,14 @@ public class AuthController(IConfiguration configuration, IUserRepository reposi
     }
 
     #region Porfile
+    
+    [HttpPost(RoutePaths.UpdateProfile)]
+    [Authorize]
+    public async Task<Result<bool>> UpdateProfile(EditProfilReq req)
+    {
+        req.UserId = GetId();
+        return await repository.EditProfile( req ).SuccessResult();
+    }
 
     [HttpGet(RoutePaths.GetProfile)]
     [Authorize]
@@ -83,7 +91,6 @@ public class AuthController(IConfiguration configuration, IUserRepository reposi
         {
             Email = user.Email,
             Id = user.Id,
-            Name = "name",
             //Roles = roles.ToList()
         });
         var refToken = TokenTool.CreateRefreshToken();
