@@ -5,6 +5,7 @@ using Dapper;
 using Domain.DTO.User;
 using Domain.Entities.User;
 using Domain.Enums;
+using Domain.Request;
 using Domain.Request.User;
 using Domain.Response.User;
 using Oracle.ManagedDataAccess.Client;
@@ -273,5 +274,92 @@ WHERE AppUserId = :P_AppUserId");
                                     rv.TYPE_ID, rt.NAME as TypeName from ROLE_VALUE rv
                                     left join ROLE_TYPE rt on rv.TYPE_ID = rt.ID"
         )).ToList();
+    }
+
+
+    public async Task<List<NotifResp>> GetNotif(int userId)
+    {
+        await using var db = new OracleDb();
+        return (await db.Connection.QueryAsync<NotifResp>(@"
+                                  select ID,
+                                         TITLE,
+                                         BODY,
+                                         IS_READ IsRead,
+                                         CREATE_DATE CreateDate,
+                                         ICON,
+                                         TYPE,
+                                         USER_ID UserId
+                                  from NOTIF WHERE USER_ID=:P_USER_ID
+                                  ", new { P_USER_ID = userId })).ToList();
+    }
+
+    public async Task<int> GetUnReadNotifCount(int userId)
+    {
+        await using var db = new OracleDb();
+
+        return await db.Connection.ExecuteScalarAsync<int>(@"select count(*) as count
+                    from NOTIF WHERE USER_ID=:P_USER_ID and IS_READ=0", new { P_USER_ID = userId });
+    }
+
+    public async Task ReadNotif(IntListReq ids)
+    {
+       
+        await using var db = new OracleDb();
+        OracleParameter values = new("P_Ids", OracleDbType.Int32, ParameterDirection.Input);
+        values.CollectionType = OracleCollectionType.PLSQLAssociativeArray;
+        values.Value = ids.Values.ToArray();
+        var pr = new List<OracleParameter> { values };
+        await db.NonQueryAsync(@"
+            begin
+                  PKG_APP_USER.ReadNotif (P_Ids => :P_Ids);
+            end;"
+            , pr);
+    }
+
+
+    public async Task InstPosition(PositionReq req)
+    {
+        await using var db = new OracleDb();
+        var pr = new List<OracleParameter>
+        {
+            new("P_ID", OracleDbType.Int32, req.Id, ParameterDirection.Input),
+            new("P_PARENT_ID", OracleDbType.Int32, req.ParentId.HasValue ? req.ParentId : DBNull.Value,
+                ParameterDirection.Input),
+            new("P_NAME", OracleDbType.NVarchar2, req.Name, ParameterDirection.Input),
+            new("P_DESCRIPTION", OracleDbType.NVarchar2, req.Description, ParameterDirection.Input)
+        };
+        await db.NonQueryAsync(@"
+          begin
+    PKG_APP_USER.INSPOSITION(
+            P_ID => :P_ID,
+            P_PARENT_ID => :P_PARENT_ID,
+            P_NAME => :P_NAME,
+            P_DESCRIPTION => :P_DESCRIPTION
+    );
+end;"
+            , pr);
+    }
+
+    public async Task DeletePosition(int id)
+    {
+        await using var db = new OracleDb();
+        var pr = new List<OracleParameter>
+        {
+            new("P_ID", OracleDbType.Int32, id, ParameterDirection.Input)
+        };
+        await db.NonQueryAsync(@"
+           begin
+                MY_BLOG.PKG_APP_USER.DELETEPOSITION(P_ID => :P_ID);
+           end;"
+            , pr);
+    }
+
+
+    public async Task<List<PositionReq>> GetPosition()
+    {
+        await using var db = new OracleDb();
+
+        return (await db.Connection.QueryAsync<PositionReq>(@"select ID, PARENT_ID  parentId, NAME, DESCRIPTION
+                from POSITION")).ToList() ;
     }
 }

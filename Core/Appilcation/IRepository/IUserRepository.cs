@@ -1,5 +1,6 @@
 ﻿using Domain.DTO.User;
 using Domain.Entities.User;
+using Domain.Request;
 using Domain.Request.User;
 using Domain.Response.User;
 
@@ -22,4 +23,13 @@ public interface IUserRepository
     Task<List<SearchUserResp>> SearchUsers(string name, int userId);
     Task<int> RemoveClaimByType(SetClaimReq req);
     Task<List<RoleValueDto>> GetRoleValue();
+    
+    
+    Task<List<NotifResp>> GetNotif(int userId);
+    Task<int> GetUnReadNotifCount(int userId);
+    Task ReadNotif(IntListReq ids);
+
+    Task InstPosition(PositionReq req);
+    Task DeletePosition(int id);
+    Task<List<PositionReq>> GetPosition();
 }

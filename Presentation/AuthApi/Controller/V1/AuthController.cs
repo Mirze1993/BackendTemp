@@ -5,8 +5,10 @@ using Asp.Versioning;
 using Domain;
 using Domain.DTO.User;
 using Domain.Entities.User;
+using Domain.Request;
 using Domain.Request.User;
 using Domain.Response;
+using Domain.Response.User;
 using Domain.RoutePaths;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +40,7 @@ public class AuthController(IConfiguration configuration, IUserRepository reposi
             throw new Exception("Password incorrect");
         }
 
-        return await CreateToken(user).SuccessResult<LoginResp>();
+        return await CreateToken(user).SuccessResult();
     }
 
     [HttpPost(RoutePaths.LoginByRefreshToken)]
@@ -51,7 +53,7 @@ public class AuthController(IConfiguration configuration, IUserRepository reposi
     [HttpPost(RoutePaths.Register), CommonException]
     public async Task<Result<int>> Register([FromBody] RegisterUserDto req)
     {
-        return await repository.Register(req).SuccessResult<int>();
+        return await repository.Register(req).SuccessResult();
     }
 
     #region Porfile
@@ -76,8 +78,62 @@ public class AuthController(IConfiguration configuration, IUserRepository reposi
     [Authorize]
     public async Task<Result<List<RoleValueDto>>> GetRoleValue()
         =>await repository.GetRoleValue().SuccessResult();
+    
+    [HttpPost(RoutePaths.SetClaim)]
+    [Authorize]
+    public async Task<Result<int>> SetClaim([FromBody]SetClaimReq req)
+    {
+        return await repository.SetClaim(req).SuccessResult();
+    }
 
     #endregion
+
+    #region notification
+    [HttpGet(RoutePaths.GetNotif)]
+    [Authorize]
+    public async Task<Result<List<NotifResp>>> GetNotif()
+        =>await repository.GetNotif(GetId()).SuccessResult();
+ 
+ 
+    [HttpGet(RoutePaths.GetUnReadNotifCount)]
+    [Authorize]
+    public async  Task<Result<int>> GetUnReadNotifCount()
+        =>await repository.GetUnReadNotifCount( GetId()).SuccessResult();
+ 
+ 
+    [HttpPost(RoutePaths.ReadNotif)]
+    [Authorize]
+    public async Task<Result> ReadNotif([FromBody]IntListReq ids)
+        =>await repository.ReadNotif(ids).SuccessResult();
+ 
+ 
+    [HttpPost(RoutePaths.InstPosition)]
+    [Authorize]
+    public async Task<Result> InstPosition([FromBody]PositionReq req)
+        =>await repository.InstPosition( req).SuccessResult();
+ 
+ 
+    [HttpGet(RoutePaths.GetPosition)]
+    [Authorize]
+    public async Task<Result<List<PositionReq>>> GetPosition()
+        =>await repository.GetPosition().SuccessResult();
+ 
+ 
+    [HttpDelete(RoutePaths.DeletePosition)]
+    [Authorize]
+    public async Task<Result> DeletePosition([FromRoute]int id)
+        =>await repository.DeletePosition(id).SuccessResult();
+    
+
+    #endregion
+    
+    [HttpGet(RoutePaths.SearchUsers)]
+    [Authorize]
+    public async Task<Result<List<SearchUserResp>>> SearchUsers(string name)
+    {
+        return await repository.SearchUsers( name, GetId()).SuccessResult();
+    }
+    
 
     private int GetId()=>
         int.Parse(User.Claims.First(mm => mm.Type == "Id").Value);

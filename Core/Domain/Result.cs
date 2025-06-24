@@ -57,6 +57,12 @@ public static class ExtensionResult
         T result = await o;
         return Result<T>.SuccessResult(result);
     }
+    
+    public static async Task<Result> SuccessResult(this Task o)
+    {
+        await o;
+        return Result.SuccessResult();
+    }
 
     public class SocketResult
     {

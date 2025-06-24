@@ -12,6 +12,11 @@ public static partial class RoutePaths
     public const string GetRoleValue = "/user/GetRoleValue";
     public const string RemoveClaimByType = "/user/RemoveClaimByType";
     public const string SetClaim = "/user/SetClaim";
+    
     public const string GetNotif = "/user/GetNotif";
     public const string GetUnReadNotifCount = "/user/GetUnReadNotifCount";
+    public const string ReadNotif = "/user/ReadNotif";
+    public const string InstPosition = "/user/InstPosition";
+    public const string GetPosition = "/user/GetPosition";
+    public const string DeletePosition = "/user/DeletePosition/{id}";
 }
