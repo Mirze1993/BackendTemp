@@ -68,11 +68,11 @@ SELECT Id,
        Password,
        FAILED_LOGIN_COUNT,
        LAST_FAILED_LOGIN
-FROM App_user
+FROM APP_USER
 WHERE Refresh_Token = :P_ref_tok AND Id = :P_Id";
         return await db.Connection.QueryFirstAsync<GetUserDto>(query, new
         {
-            Refresh_Token = refToken,
+            P_ref_tok = refToken,
             P_Id = id
         });
     }

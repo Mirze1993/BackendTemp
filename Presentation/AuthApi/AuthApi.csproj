@@ -15,6 +15,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Core\Appilcation\Appilcation.csproj" />
+      <ProjectReference Include="..\..\Infrastructure\AiIntegration\AiIntegration.csproj" />
+      <ProjectReference Include="..\..\Infrastructure\PersistenceMongo\PersistenceMongo.csproj" />
       <ProjectReference Include="..\..\Infrastructure\PersistenceOracle\PersistenceOracle.csproj" />
     </ItemGroup>
 

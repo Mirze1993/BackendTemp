@@ -1,10 +1,13 @@
 using System.Text.Json.Serialization;
+using AiIntegration;
 using Appilcation.CustomMiddleware;
 using Appilcation.ExtensionMethods;
 using Appilcation.IRepository;
+using AuthApi.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using NLog.Web;
+using PersistenceMongo;
 using PersistenceOracle;
 using PersistenceOracle.Repository;
 
@@ -18,6 +21,11 @@ builder.Services.AddOpenApiCustomer(builder.Configuration);
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
 await builder.Services.OracleDbConfig(builder.Configuration);
+
+builder.Services.AddAiIntegration();
+builder.Services.AddMongoClient(builder.Configuration);
+
+builder.Services.AddSignalR();
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -41,9 +49,11 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: "AllowAllOrigins",
         configurePolicy: policy =>
         {
-            policy.AllowAnyOrigin()
+            policy
+                .AllowAnyMethod()
                 .AllowAnyHeader()
-                .AllowAnyMethod();
+                .AllowCredentials()
+                .WithOrigins("http://localhost:4200","http://localhost:4201", "http://localhost:4202", "http://localhost:4204","http://localhost:4205");
         });
     options.AddPolicy(name: "AllowOnlySomeOrigins",
         configurePolicy: policy =>
@@ -73,5 +83,7 @@ app.UseHttpsRedirection();
 app.UseAuth();
 
 app.MapControllers();
+
+app.MapHub<ChatHub>("/chat");
 app.Run();
 
