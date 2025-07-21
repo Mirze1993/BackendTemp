@@ -51,5 +51,21 @@ public class ChatHistoryMdb
         using var cursor = await _collection.FindAsync(filter, options);
         return await cursor.ToListAsync();
     }
+    public async Task<ChatSessionModel> GetSessionById(int userId,string sessionId,int limit=20)
+    {
+        var builder = Builders<ChatSessionModel>.Filter;
+        var filter = builder.And(
+            builder.Eq(s => s.UserId, userId),
+            builder.Eq(s => s.Id, sessionId)
+        );
+        var sort = Builders<ChatSessionModel>.Sort.Descending(s => s.CreateDate); // ən yenilər önə
+        var options = new FindOptions<ChatSessionModel>
+        {
+            Sort = sort,
+            Limit = limit
+        };
+        using var cursor = await _collection.FindAsync(filter, options);
+        return await cursor.FirstOrDefaultAsync();
+    }
     
 }

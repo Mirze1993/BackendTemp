@@ -20,6 +20,11 @@ public class ChatHistoryController(ChatHistoryMdb chatHistoryMdb): ControllerBas
         await chatHistoryMdb.GetSessions(GetId()).SuccessResult();
     
     [Authorize]
+    [HttpGet(RoutePaths.ChGetSessionById)]
+    public async Task<Result<ChatSessionModel>> GetSessionById(string id) =>
+        await chatHistoryMdb.GetSessionById(GetId(),id).SuccessResult();
+    
+    [Authorize]
     [HttpPost(RoutePaths.ChCreateSession)]
     public async Task<Result<ChatSessionModel>> ChCreateSession() =>
         await chatHistoryMdb.CreateSession(GetId()).SuccessResult();
