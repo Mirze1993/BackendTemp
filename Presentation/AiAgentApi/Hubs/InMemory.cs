@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
-using AuthApi.Hubs.Models;
+using AiAgentApi.Hubs.Models;
 
-namespace AuthApi.Hubs;
+namespace AiAgentApi.Hubs;
 
 public class InMemory
 {

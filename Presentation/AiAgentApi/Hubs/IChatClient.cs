@@ -1,6 +1,6 @@
 ﻿using PersistenceMongo.Entities;
 
-namespace AuthApi.Hubs;
+namespace AiAgentApi.Hubs;
 
 public interface IChatClient
 {

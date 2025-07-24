@@ -12,12 +12,12 @@ public static class Config
     )
     {
         service
-            .AddKernel()
+            .AddKernel().Services
             .AddOpenAIChatCompletion(
                 modelId: "openai/gpt-3.5-turbo-0613",
                 openAIClient:
                 new OpenAIClient(credential:
-                    new ApiKeyCredential("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"),
+                    new ApiKeyCredential("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"),
                     options: new OpenAIClientOptions()
                     {
                         Endpoint = new Uri("https://openrouter.ai/api/v1")

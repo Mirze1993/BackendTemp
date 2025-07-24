@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using PersistenceMongo;
 using PersistenceMongo.Entities;
 
-namespace AuthApi.Controller.V1;
+namespace AiAgentApi.Controller.V1;
 
 [ApiController]
 [ApiVersion("1.0")]

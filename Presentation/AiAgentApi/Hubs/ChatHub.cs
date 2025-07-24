@@ -8,7 +8,7 @@ using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using PersistenceMongo;
 
-namespace AuthApi.Hubs;
+namespace AiAgentApi.Hubs;
 
 public class ChatHub:Hub<IChatClient>
 {

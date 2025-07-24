@@ -1,9 +1,12 @@
 using System.Text.Json.Serialization;
+using AiAgentApi.Hubs;
 using AiIntegration;
 using Appilcation.CustomMiddleware;
 using Appilcation.ExtensionMethods;
+using NLog.Web;
 using PersistenceMongo;
 using PersistenceOracle;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -78,5 +81,6 @@ app.UseAuth();
 
 app.MapControllers();
 
+app.MapHub<ChatHub>("/chat");
 app.Run();
 
