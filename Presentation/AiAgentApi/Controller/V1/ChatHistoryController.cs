@@ -33,6 +33,12 @@ public class ChatHistoryController(ChatHistoryMdb chatHistoryMdb): ControllerBas
     [HttpPost(RoutePaths.ChAddHistory)]
     public async Task<Result> ChAddHistory([FromBody] AddChatHistoryReq req) =>
         await chatHistoryMdb.AddHistory(req).SuccessResult();
+
+    [HttpGet("/test/test")]
+    public void Test()
+    {
+        new FaceArt.Config().GetSimilarity();
+    }
     
     private int GetId()=>
         int.Parse(User.Claims.First(mm => mm.Type == "Id").Value);
