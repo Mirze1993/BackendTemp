@@ -20,5 +20,7 @@ public static partial class RoutePaths
     public const string GetPosition = "/user/GetPosition";
     public const string DeletePosition = "/user/DeletePosition/{id}";
     
+    public const string GetUserFromAsanFinance = "/user/GetUserFromAsanFinance";
+    
     
 }

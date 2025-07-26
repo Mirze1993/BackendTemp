@@ -2,8 +2,10 @@ using System.Text.Json.Serialization;
 using AiIntegration;
 using Appilcation.CustomMiddleware;
 using Appilcation.ExtensionMethods;
+using ExternalServices;
 using PersistenceMongo;
 using PersistenceOracle;
+using Refit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,12 @@ await builder.Services.OracleDbConfig(builder.Configuration);
 
 builder.Services.AddAiIntegration();
 builder.Services.AddMongoClient(builder.Configuration);
+
+builder.Services.AddRefitClient<IAsanFinance>().ConfigureHttpClient(configureClient =>
+{
+    configureClient.BaseAddress = new Uri(builder.Configuration.GetValue("AsanFinance",""));
+    configureClient.DefaultRequestHeaders.Add("token",builder.Configuration.GetValue("AsanFinanceToken",""));
+});
 
 builder.Services.AddSignalR();
 

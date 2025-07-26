@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Core\Appilcation\Appilcation.csproj" />
+      <ProjectReference Include="..\..\Infrastructure\FaceArt\FaceArt.csproj" />
     </ItemGroup>
 
     <ItemGroup>
