@@ -68,14 +68,14 @@ public class FileController : ControllerBase
         var ms1 = new MemoryStream();
         var ms2 = new MemoryStream();
         
-        var path = Path.Combine(environment.WebRootPath, "Image/capture-f538215d-4911-48ee-bb21-e339aecd45cb.png");
-        using (var fs = new FileStream(path, FileMode.Open))
-        {
-            await fs.CopyToAsync(ms1, cancellationToken);
-            fs.Flush();
-        }
+        // var path = Path.Combine(environment.WebRootPath, "Image/capture-95829ca1-a60c-45a1-b733-a443bab7590c.png");
+        // using (var fs = new FileStream(path, FileMode.Open))
+        // {
+        //     await fs.CopyToAsync(ms1, cancellationToken);
+        //     fs.Flush();
+        // }
         
-        //await file1.CopyToAsync(ms1);  
+        await file1.CopyToAsync(ms1);  
         await file2.CopyToAsync(ms2);
         var sim= new ImgSimilarityService().GetSimilarity(ms1, ms2);
         return Result<float>.SuccessResult( sim * 100);
