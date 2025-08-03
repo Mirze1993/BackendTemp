@@ -1,5 +1,4 @@
 using System.Text.Json.Serialization;
-using AiIntegration;
 using Appilcation.CustomMiddleware;
 using Appilcation.ExtensionMethods;
 using ExternalServices;
@@ -18,7 +17,6 @@ builder.Services.AddJwtAuthentication(builder.Configuration);
 
 await builder.Services.OracleDbConfig(builder.Configuration);
 
-builder.Services.AddAiIntegration();
 builder.Services.AddMongoClient(builder.Configuration);
 
 builder.Services.AddRefitClient<IAsanFinance>().ConfigureHttpClient(configureClient =>
