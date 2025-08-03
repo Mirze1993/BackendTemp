@@ -6,6 +6,6 @@ namespace ExternalServices;
 
 public interface IAsanFinance
 {
-    [Get("/OnlineAccount/User/GetUserFromAsanFinans?pin=5mdym0q&")]
-    Task<Result<AsanFinanceResp>> GetAsanFinanceAsync([Query]string fin,[Query]string docNo);
+    [Get("/OnlineAccount/User/GetUserFromAsanFinans")]
+    Task<Result<AsanFinanceResp>> GetAsanFinanceAsync([Query]string pin,[Query]string docNo);
 }
