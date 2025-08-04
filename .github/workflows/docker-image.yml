@@ -49,6 +49,6 @@ jobs:
           key: ${{ secrets.CONTABO_SSH_KEY }}
           script: |
             cd /root/docker-files/backend
-            bash update.sh
+             IMAGE_TAG=${{ env.IMAGE_TAG }} bash update.sh
 
             
