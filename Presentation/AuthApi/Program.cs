@@ -1,10 +1,11 @@
 using System.Text.Json.Serialization;
-using AiIntegration;
 using Appilcation.CustomMiddleware;
 using Appilcation.ExtensionMethods;
+using ExternalServices;
 using PersistenceMongo;
-using PersistenceOracle;
-
+using PersistenceOracle;  
+using Refit;  
+   
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApiVersioning(builder.Configuration);
@@ -16,8 +17,13 @@ builder.Services.AddJwtAuthentication(builder.Configuration);
 
 await builder.Services.OracleDbConfig(builder.Configuration);
 
-builder.Services.AddAiIntegration();
 builder.Services.AddMongoClient(builder.Configuration);
+
+builder.Services.AddRefitClient<IAsanFinance>().ConfigureHttpClient(configureClient =>
+{
+    configureClient.BaseAddress = new Uri(builder.Configuration.GetValue("AsanFinance",""));
+    configureClient.DefaultRequestHeaders.Add("token",builder.Configuration.GetValue("AsanFinanceToken",""));
+});
 
 builder.Services.AddSignalR();
 
@@ -37,6 +43,12 @@ builder.Services.AddControllers()
 #endregion
 
 #region cors
+
+#if DEBUG
+
+#else
+builder.WebHost.UseKestrel(). UseUrls("http://+:5197");
+#endif
 
 builder.Services.AddCors(options =>
 {

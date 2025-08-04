@@ -10,6 +10,8 @@ using Domain.Request.User;
 using Domain.Response;
 using Domain.Response.User;
 using Domain.RoutePaths;
+using ExternalServices;
+using ExternalServices.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using GenTokenDto = Domain.Tool.GenTokenDto;
@@ -18,7 +20,7 @@ namespace AuthApi.Controller.V1;
 
 [ApiController]
 [ApiVersion("1.0")]
-public class AuthController(IConfiguration configuration, IUserRepository repository) : ControllerBase
+public class AuthController(IConfiguration configuration, IUserRepository repository,IAsanFinance asanFinance) : ControllerBase
 {
     [HttpPost(RoutePaths.Login), CommonException, ReqRespLog]
     public async Task<Result<LoginResp>> Login([FromBody] LoginReq req)
@@ -134,6 +136,12 @@ public class AuthController(IConfiguration configuration, IUserRepository reposi
         return await repository.SearchUsers( name, GetId()).SuccessResult();
     }
     
+    [HttpGet(RoutePaths.GetUserFromAsanFinance)]
+    [Authorize]
+    public async Task<Result<AsanFinanceResp>> GetUserFromAsanFinance(string pin)
+    {
+        return await asanFinance.GetAsanFinanceAsync(pin,"000000000" );
+    }
 
     private int GetId()=>
         int.Parse(User.Claims.First(mm => mm.Type == "Id").Value);

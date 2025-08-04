@@ -4,6 +4,7 @@
         <TargetFramework>net9.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
@@ -12,10 +13,17 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Core\Appilcation\Appilcation.csproj" />
+      <ProjectReference Include="..\..\Infrastructure\FaceArt\FaceArt.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="wwwroot\Image\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
     </ItemGroup>
 
 </Project>

@@ -4,6 +4,7 @@
         <TargetFramework>net9.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
@@ -15,9 +16,15 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Core\Appilcation\Appilcation.csproj" />
-      <ProjectReference Include="..\..\Infrastructure\AiIntegration\AiIntegration.csproj" />
+      <ProjectReference Include="..\..\Infrastructure\ExternalServices\ExternalServices.csproj" />
       <ProjectReference Include="..\..\Infrastructure\PersistenceMongo\PersistenceMongo.csproj" />
       <ProjectReference Include="..\..\Infrastructure\PersistenceOracle\PersistenceOracle.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
     </ItemGroup>
 
 </Project>

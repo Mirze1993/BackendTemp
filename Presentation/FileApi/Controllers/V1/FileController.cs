@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using Asp.Versioning;
 using Domain;
+using FaceArt;
 using FileApi.CustomerAttribute;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +29,7 @@ public class FileController : ControllerBase
     {
         if (file == null || file.Length == 0
                          || !Regex.IsMatch(file.FileName.ToLower(),
-                             @"\.(png|jpg|svg|gif|doc|docx|log|odt|pages|rtf|txt|csv|key|pps|ppt|pptx|tar|xml|json|pdf|xls|xlsx|db|sql|rar|gz|zip)"))
+                             @"\.(png|jpg|svg|gif|doc|docx|log|odt|pages|rtf|txt|csv|key|pps|ppt|pptx|tar|xml|json|pdf|xls|xlsx|db|sql|rar|gz|zip|webm)"))
             return Result<string>.ErrorResult("type error");
 
 
@@ -49,6 +50,37 @@ public class FileController : ControllerBase
         return Result<string>.SuccessResult("/StaticFiles/" + name);
         ;
     }
+    
+    [HttpPost("/File/GetImgSimilarity")]
+    //[Authorize(Policy = "UserToken")]
+    //[ClaimRequirement("Role","FileWrite")]
+    public async Task<Result<float>> GetImgSimilarity(IFormFile file1, IFormFile file2,CancellationToken cancellationToken)
+    {
+        if (file1 == null || file1.Length == 0
+                         || !Regex.IsMatch(file1.FileName.ToLower(),
+                             @"\.(png|jpg|svg|gif)"))
+            return Result<float>.ErrorResult("type1 error");
+        
+        if (file2 == null || file2.Length == 0
+                          || !Regex.IsMatch(file2.FileName.ToLower(),
+                              @"\.(png|jpg|svg|gif)"))
+            return Result<float>.ErrorResult("type2 error");
+        var ms1 = new MemoryStream();
+        var ms2 = new MemoryStream();
+        
+        // var path = Path.Combine(environment.WebRootPath, "Image/capture-95829ca1-a60c-45a1-b733-a443bab7590c.png");
+        // using (var fs = new FileStream(path, FileMode.Open))
+        // {
+        //     await fs.CopyToAsync(ms1, cancellationToken);
+        //     fs.Flush();
+        // }
+        
+        await file1.CopyToAsync(ms1);  
+        await file2.CopyToAsync(ms2);
+        var sim= new ImgSimilarityService().GetSimilarity(ms1, ms2);
+        return Result<float>.SuccessResult( sim * 100);
+
+    }
 
 
     [HttpPost("/File/SaveJodit")]
@@ -58,7 +90,7 @@ public class FileController : ControllerBase
     {
         if (files[0] == null || files[0].Length == 0
                              || !Regex.IsMatch(files[0].FileName.ToLower(),
-                                 @"\.(png|jpg|gif|doc|docx|log|odt|pages|rtf|txt|csv|key|pps|ppt|pptx|tar|xml|json|pdf|xls|xlsx|db|sql|rar|gz|zip)"))
+                                 @"\.(png|jpg|gif|doc|docx|log|odt|pages|rtf|txt|csv|key|pps|ppt|pptx|tar|xml|json|pdf|xls|xlsx|db|sql|rar|gz|zip|webm)"))
             return Result<string>.ErrorResult("type error");
 
         var name = Path.Combine("Image",
@@ -110,6 +142,8 @@ public class FileController : ControllerBase
 
         return Result.SuccessResult();
     }
+    
+    
 }
 
 public class UploadResponse
