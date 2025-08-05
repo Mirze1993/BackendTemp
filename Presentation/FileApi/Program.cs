@@ -11,7 +11,7 @@ builder.Services.AddOpenApiCustomer(builder.Configuration);
 builder.Services.AddJwtAuthentication(builder.Configuration);
 #region cors
  
-builder.Services.AddCors(options =>
+builder.Services.AddCors(options => 
 {
     options.AddPolicy(name: "AllowAllOrigins",
         configurePolicy: policy =>
