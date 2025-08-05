@@ -1,7 +1,7 @@
 using Appilcation.ExtensionMethods; 
 using Microsoft.Extensions.FileProviders;  
  
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args); 
 
 builder.Services.AddApiVersioning(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer(); 
