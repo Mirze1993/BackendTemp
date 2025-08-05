@@ -1,6 +1,6 @@
 using Appilcation.ExtensionMethods; 
 using Microsoft.Extensions.FileProviders;  
-
+ 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApiVersioning(builder.Configuration);
