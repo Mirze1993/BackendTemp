@@ -4,7 +4,7 @@ using Microsoft.Extensions.FileProviders;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApiVersioning(builder.Configuration);
-builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddEndpointsApiExplorer(); 
 
 builder.Services.AddOpenApiCustomer(builder.Configuration);
 
