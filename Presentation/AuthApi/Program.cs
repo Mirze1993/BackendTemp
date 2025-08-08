@@ -12,7 +12,7 @@ builder.Services.AddApiVersioning(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddOpenApiCustomer(builder.Configuration);
-
+ 
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
 await builder.Services.OracleDbConfig(builder.Configuration);
