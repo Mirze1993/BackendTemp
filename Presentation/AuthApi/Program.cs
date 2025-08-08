@@ -6,7 +6,7 @@ using PersistenceMongo;
 using PersistenceOracle;  
 using Refit;    
    
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args); 
 
 builder.Services.AddApiVersioning(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
