@@ -35,7 +35,7 @@ EOF
 
 # 2. Compose YAML generasiya olunur
 cat > $COMPOSE_FILE <<EOF
-version: '3.8'
+version: '3.8'vat
 
 services:
 EOF
@@ -63,7 +63,7 @@ done
 
 # 3. Nginx servisi əlavə olunur
 cat >> $COMPOSE_FILE <<EOF
-  nginx:
+  c_auth_nginx:
     image: nginx:alpine
     container_name: nginx
     volumes:
@@ -73,8 +73,6 @@ cat >> $COMPOSE_FILE <<EOF
     restart: unless-stopped
     networks:
       - shared-web
-    depends_on:
-      - s_auth1
 
 networks:
   net_backend:
