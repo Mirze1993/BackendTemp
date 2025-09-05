@@ -35,7 +35,7 @@ EOF
 
 # 2. Compose YAML generasiya olunur
 cat > $COMPOSE_FILE <<EOF
-version: '3.8'vat
+version: '3.8'
 
 services:
 EOF
