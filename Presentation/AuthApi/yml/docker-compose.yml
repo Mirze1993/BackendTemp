@@ -1,0 +1,70 @@
+﻿services:
+  s_api_auth1:
+    container_name: c_auth_api_1
+    image: mirze1993/c_auth_api:B${BUILD_NUMBER}
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+    networks:
+      - net_backend
+      - shared-web
+    expose:
+      - "5197"
+    healthcheck:
+      test: curl -sS http://localhost:5197/swagger/index.html || exit 1
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+  
+  s_api_auth2:
+    container_name: c_auth_api_2
+    image: mirze1993/c_auth_api:B${BUILD_NUMBER}
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+    networks:
+      - net_backend
+      - shared-web
+    expose:
+      - "5197"
+    healthcheck:
+      test: curl -sS http://localhost:5197/swagger/index.html || exit 1
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+      
+  s_auth_nginx:
+    image: nginx:alpine
+    container_name: c_auth_nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "5193:80"
+    restart: unless-stopped
+    networks:
+      - shared-web
+    depends_on:
+      - s_api_auth1
+      - s_api_auth2
+
+
+
+networks:
+  net_backend:
+    driver: bridge
+  shared-web:
+    external: true
