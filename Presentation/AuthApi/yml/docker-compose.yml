@@ -1,7 +1,7 @@
 ﻿services:
   s_api_auth1:
     container_name: c_auth_api_1
-    image: mirze1993/c_auth_api:B${BUILD_NUMBER}
+    image: mirze1993/auth-api:B${BUILD_NUMBER}
     restart: unless-stopped
     deploy:
       resources:
@@ -25,7 +25,7 @@
   
   s_api_auth2:
     container_name: c_auth_api_2
-    image: mirze1993/c_auth_api:B${BUILD_NUMBER}
+    image: mirze1993/auth-api:B${BUILD_NUMBER}
     restart: unless-stopped
     deploy:
       resources:
