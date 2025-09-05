@@ -1,17 +1,17 @@
-using Appilcation.ExtensionMethods;
-using Microsoft.Extensions.FileProviders;
-
-var builder = WebApplication.CreateBuilder(args);
+using Appilcation.ExtensionMethods; 
+using Microsoft.Extensions.FileProviders;   
+ 
+var builder = WebApplication.CreateBuilder(args); 
 
 builder.Services.AddApiVersioning(builder.Configuration);
-builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddEndpointsApiExplorer();  
 
 builder.Services.AddOpenApiCustomer(builder.Configuration);
 
 builder.Services.AddJwtAuthentication(builder.Configuration);
 #region cors
-
-builder.Services.AddCors(options =>
+ 
+builder.Services.AddCors(options => 
 {
     options.AddPolicy(name: "AllowAllOrigins",
         configurePolicy: policy =>

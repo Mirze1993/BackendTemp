@@ -1,18 +1,18 @@
 using System.Text.Json.Serialization;
 using Appilcation.CustomMiddleware;
-using Appilcation.ExtensionMethods;
+using Appilcation.ExtensionMethods; 
 using ExternalServices;
 using PersistenceMongo;
-using PersistenceOracle;
-using Refit;
-
-var builder = WebApplication.CreateBuilder(args);
+using PersistenceOracle;  
+using Refit;    
+   
+var builder = WebApplication.CreateBuilder(args); 
 
 builder.Services.AddApiVersioning(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddOpenApiCustomer(builder.Configuration);
-
+ 
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
 await builder.Services.OracleDbConfig(builder.Configuration);
@@ -43,6 +43,12 @@ builder.Services.AddControllers()
 #endregion
 
 #region cors
+
+#if DEBUG
+
+#else
+builder.WebHost.UseKestrel(). UseUrls("http://+:5197");
+#endif
 
 builder.Services.AddCors(options =>
 {
