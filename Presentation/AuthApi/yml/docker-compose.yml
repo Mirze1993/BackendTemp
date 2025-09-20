@@ -46,22 +46,6 @@
       timeout: 10s
       retries: 3
       start_period: 10s
-      
-  s_auth_nginx:
-    image: nginx:alpine
-    container_name: c_auth_nginx
-    volumes:
-      - ./nginx1.conf:/etc/nginx/nginx.conf:ro
-    ports:
-      - "5193:80"
-    restart: unless-stopped
-    networks:
-      - shared-web
-    depends_on:
-      - s_api_auth1
-      - s_api_auth2
-
-
 
 networks:
   net_backend:
