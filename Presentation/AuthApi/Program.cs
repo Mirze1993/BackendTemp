@@ -47,7 +47,7 @@ builder.Services.AddControllers()
 #if DEBUG
 
 #else
-builder.WebHost.UseKestrel(). UseUrls("http://+:5197");
+builder.WebHost.UseKestrel(). UseUrls("http://+:80");
 #endif
 
 builder.Services.AddCors(options =>
@@ -59,7 +59,7 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials()
-                .WithOrigins("http://localhost:4200","http://localhost:4201", "http://localhost:4202", "http://localhost:4204","http://localhost:4205");
+                .AllowAnyOrigin();
         });
     options.AddPolicy(name: "AllowOnlySomeOrigins",
         configurePolicy: policy =>

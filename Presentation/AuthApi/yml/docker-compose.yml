@@ -15,7 +15,7 @@
       - net_backend
       - shared-web
     expose:
-      - "5197"
+      - "80"
     healthcheck:
       test: curl -sS http://localhost:5197/swagger/index.html || exit 1
       interval: 1m30s
@@ -41,7 +41,7 @@
     expose:
       - "5197"
     healthcheck:
-      test: curl -sS http://localhost:5197/swagger/index.html || exit 1
+      test: curl -sS http://localhost:80/swagger/index.html || exit 1
       interval: 1m30s
       timeout: 10s
       retries: 3
