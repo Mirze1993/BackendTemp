@@ -3,7 +3,7 @@ USER root
 WORKDIR /app
 EXPOSE 80
 RUN apt update && \
-    apt install -y curl htop nano \
+    apt install -y curl htop nano
 
 
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
