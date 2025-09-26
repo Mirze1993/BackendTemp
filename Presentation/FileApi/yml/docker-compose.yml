@@ -11,7 +11,7 @@ services:
         reservations:
           cpus: '0.25'
           memory: 128M    
-    ports:
+    expose:
       - "80"
     networks:
       - net_backend
