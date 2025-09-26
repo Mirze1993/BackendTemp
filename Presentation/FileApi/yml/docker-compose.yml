@@ -1,6 +1,6 @@
 services:
   s_file_server:
-    container_name: c_file_serve
+    container_name: c_file_api
     image: mirze1993/file_serve:B${BUILD_NUMBER}
     restart: unless-stopped
     deploy:
