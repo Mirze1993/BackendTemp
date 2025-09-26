@@ -1,0 +1,37 @@
+services:
+  s_ai_server:
+    container_name: c_ai_api
+    image: mirze1993/ai-api:B${BUILD_NUMBER}
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+    expose:
+      - "80"
+    networks:
+      - net_backend
+      - shared-web
+    healthcheck:
+      test: curl -sS http://localhost:80/swagger/index.html || exit 1
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    volumes:
+      - file-server:/app/wwwroot
+
+
+
+networks:
+  net_backend:
+    driver: bridge
+  shared-web:
+    external: true
+
+volumes:
+  file-server:
