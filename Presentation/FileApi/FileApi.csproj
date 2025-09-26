@@ -24,6 +24,7 @@
       <Content Include="..\..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+      <Content Remove="wwwroot\Image\capture-95829ca1-a60c-45a1-b733-a443bab7590c.png" />
     </ItemGroup>
 
 </Project>

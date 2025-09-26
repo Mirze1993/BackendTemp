@@ -119,7 +119,7 @@ public class UploadResponse
 
 public class UploadReq
 {
-    public string? path { get; set; }
-    public string? source { get; set; }
-    public List<IFormFile> files { get; set; }
+    public string? Path { get; set; }
+    public string? Source { get; set; }
+    public List<IFormFile> Files { get; set; }
 }
