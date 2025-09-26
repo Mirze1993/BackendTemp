@@ -3,6 +3,12 @@ using Microsoft.Extensions.FileProviders;
  
 var builder = WebApplication.CreateBuilder(args); 
 
+#if DEBUG
+
+#else
+builder.WebHost.UseKestrel(). UseUrls("http://+:80");
+#endif
+
 builder.Services.AddApiVersioning(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();  
 
