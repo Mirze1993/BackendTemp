@@ -9,6 +9,11 @@ using PersistenceOracle;
 
 
 var builder = WebApplication.CreateBuilder(args);
+#if DEBUG
+
+#else
+builder.WebHost.UseKestrel(). UseUrls("http://+:80");
+#endif
 
 builder.Services.AddApiVersioning(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
@@ -49,8 +54,7 @@ builder.Services.AddCors(options =>
             policy
                 .AllowAnyMethod()
                 .AllowAnyHeader()
-                .AllowCredentials()
-                .WithOrigins("http://localhost:4200","http://localhost:4201", "http://localhost:4202", "http://localhost:4204","http://localhost:4205");
+                .AllowAnyOrigin();
         });
     options.AddPolicy(name: "AllowOnlySomeOrigins",
         configurePolicy: policy =>
