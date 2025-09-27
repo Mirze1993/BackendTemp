@@ -30,6 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{3C4E
 	ProjectSection(SolutionItems) = preProject
 		Scripts\CommonJenkinsfile.groovy = Scripts\CommonJenkinsfile.groovy
 		Scripts\deploy.json = Scripts\deploy.json
+		Scripts\Jenkinsfile = Scripts\Jenkinsfile
 	EndProjectSection
 EndProject
 Global
