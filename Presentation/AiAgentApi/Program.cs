@@ -54,7 +54,15 @@ builder.Services.AddCors(options =>
             policy
                 .AllowAnyMethod()
                 .AllowAnyHeader()
-                .AllowAnyOrigin();
+                .AllowCredentials()
+                .WithOrigins("http://localhost:4200",
+                             "http://localhost:4201",
+                             "http://localhost:4202",
+                             "http://localhost:4204",
+                             "https://mc-blog.space",
+                             "https://www.mc-blog.space",
+                             "mc-blog.space"
+                             );
         });
     options.AddPolicy(name: "AllowOnlySomeOrigins",
         configurePolicy: policy =>

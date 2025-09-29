@@ -1,4 +1,4 @@
-﻿pipeline {
+pipeline {
     environment {
         dockerimagename = "mirze1993/file-api:B${BUILD_NUMBER}"
         dockerImage = ""
