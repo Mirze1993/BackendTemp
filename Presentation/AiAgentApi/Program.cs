@@ -24,7 +24,7 @@ builder.Services.AddJwtAuthentication(builder.Configuration);
 
 await builder.Services.OracleDbConfig(builder.Configuration);
 
-builder.Services.AddAiIntegration();
+builder.Services.AddAiIntegration(builder.Configuration);
 builder.Services.AddMongoClient(builder.Configuration);
 
 builder.Services.AddSignalR();

@@ -1,5 +1,5 @@
 {
-  "authApi": 0,
-  "fileApi": 1,
+  "authApi": 1,
+  "fileApi": 0,
   "aiApi": 0
 }

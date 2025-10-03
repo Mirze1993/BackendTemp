@@ -1,26 +1,28 @@
 ﻿using System.ClientModel;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
 using OpenAI;
+
 
 namespace AiIntegration;
 
 public static class Config
 {
     public static  void AddAiIntegration(
-        this IServiceCollection service
+        this IServiceCollection service,IConfiguration configuration
     )
     {
         service
             .AddKernel().Services
             .AddOpenAIChatCompletion(
-                modelId: "openai/gpt-3.5-turbo-0613",
+                modelId: configuration.GetValue ("OpenAIChatCompletion:ModelId",""),
                 openAIClient:
                 new OpenAIClient(credential:
-                    new ApiKeyCredential("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"),
+                    new ApiKeyCredential(configuration.GetValue ("OpenAIChatCompletion:Key","") ),
                     options: new OpenAIClientOptions()
                     {
-                        Endpoint = new Uri("https://openrouter.ai/api/v1")
+                        Endpoint = new Uri(configuration.GetValue ("OpenAIChatCompletion:Endpoint",""))
                     }
                 )
             );
