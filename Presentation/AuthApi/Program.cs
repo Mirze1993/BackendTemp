@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using Appilcation.CustomMiddleware;
 using Appilcation.ExtensionMethods; 
 using ExternalServices;
+using OpenTelemetryLib;
 using PersistenceMongo;
 using PersistenceOracle;  
 using Refit;    
@@ -16,6 +17,9 @@ builder.Services.AddOpenApiCustomer(builder.Configuration);
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
 await builder.Services.OracleDbConfig(builder.Configuration);
+
+builder.Services.AddOpenTelemetryServices(builder.Configuration);
+builder.Logging.AddOpenTelemetryLogging(builder.Configuration);
 
 builder.Services.AddMongoClient(builder.Configuration);
 

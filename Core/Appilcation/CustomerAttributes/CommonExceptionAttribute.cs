@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Data.Common;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,7 @@ public class CommonExceptionFilter(ILogger<CommonExceptionFilter> logger) : IExc
             ErrorMessage =context.Exception switch
             {
                 DbException e => Translate( e),
+                ValidationException e => e.Message,
                 _ =>context.Exception.Message
             },
             Description = context.Exception switch

@@ -14,4 +14,8 @@
       <Compile Remove="ReqRespModel\LoginReq.cs" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="HtmlSanitizer" Version="9.1.887-beta" />
+    </ItemGroup>
+
 </Project>

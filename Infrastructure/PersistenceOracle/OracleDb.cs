@@ -42,7 +42,7 @@ public class OracleDb : IAsyncDisposable
 
     public async Task CheckConnection()
     {
-        await ScalerAsync(@"SELECT 1 FROM dual", commandType: CommandType.Text);
+        //await ScalerAsync(@"SELECT 1 FROM dual", commandType: CommandType.Text);
     }
 
 

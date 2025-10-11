@@ -33,6 +33,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{3C4E
 		Scripts\Jenkinsfile = Scripts\Jenkinsfile
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTelemetryLib", "Infrastructure\OpenTelemetryLib\OpenTelemetryLib.csproj", "{D0FF5A42-2F73-4D5F-98B9-082E9212A5E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,7 @@ Global
 		{B51DDD00-B017-4144-B7CD-E49DA5170291} = {F5813053-FA17-4592-9C98-EB4B524A95A0}
 		{C940BABA-557D-42E7-A3E2-EDBB55071D7C} = {30E538D3-0EB8-4C5C-91FC-784BD5E5D41F}
 		{1B0D6206-B65D-4E5A-AA75-F3D1D1AD88F9} = {30E538D3-0EB8-4C5C-91FC-784BD5E5D41F}
+		{D0FF5A42-2F73-4D5F-98B9-082E9212A5E1} = {30E538D3-0EB8-4C5C-91FC-784BD5E5D41F}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{10F2D62E-903F-4B7E-AE28-7201E0F8BB73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -91,5 +94,9 @@ Global
 		{1B0D6206-B65D-4E5A-AA75-F3D1D1AD88F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B0D6206-B65D-4E5A-AA75-F3D1D1AD88F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B0D6206-B65D-4E5A-AA75-F3D1D1AD88F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0FF5A42-2F73-4D5F-98B9-082E9212A5E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0FF5A42-2F73-4D5F-98B9-082E9212A5E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0FF5A42-2F73-4D5F-98B9-082E9212A5E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0FF5A42-2F73-4D5F-98B9-082E9212A5E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

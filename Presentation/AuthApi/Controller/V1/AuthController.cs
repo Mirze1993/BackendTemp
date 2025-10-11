@@ -25,6 +25,13 @@ public class AuthController(IConfiguration configuration, IUserRepository reposi
     [HttpPost(RoutePaths.Login), CommonException, ReqRespLog]
     public async Task<Result<LoginResp>> Login([FromBody] LoginReq req)
     {
+        var labels = Pyroscope.LabelSet.Empty.BuildUpon()
+            .Add("key1", "value1")
+            .Build();
+        Pyroscope.LabelsWrapper.Do(labels, async () =>
+        {
+          await  Task.Delay(1000);
+        });
         var user = await repository.GetUserByEmail(req.Email);
         if (user == null)
             throw new Exception("User Not Found");

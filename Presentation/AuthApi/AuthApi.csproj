@@ -17,6 +17,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\Core\Appilcation\Appilcation.csproj" />
       <ProjectReference Include="..\..\Infrastructure\ExternalServices\ExternalServices.csproj" />
+      <ProjectReference Include="..\..\Infrastructure\OpenTelemetryLib\OpenTelemetryLib.csproj" />
       <ProjectReference Include="..\..\Infrastructure\PersistenceMongo\PersistenceMongo.csproj" />
       <ProjectReference Include="..\..\Infrastructure\PersistenceOracle\PersistenceOracle.csproj" />
     </ItemGroup>
