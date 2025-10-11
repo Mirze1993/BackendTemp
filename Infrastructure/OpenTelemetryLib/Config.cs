@@ -65,6 +65,16 @@ public static class Config
             configuration.GetValue("openTelemetry:Profiler:User","");
         var profToken =
             configuration.GetValue("openTelemetry:Profiler:EndpointKey", "");
+        if (profIsActive)
+        {
+             
+            Pyroscope.Profiler.Instance.SetCPUTrackingEnabled(profCpuTracking);
+            Pyroscope.Profiler.Instance.SetAllocationTrackingEnabled(profAllocationTracking);
+            Pyroscope.Profiler.Instance.SetContentionTrackingEnabled(profContentionTracking);
+            Pyroscope.Profiler.Instance.SetExceptionTrackingEnabled(profExceptionTracking);
+            // Pyroscope.Profiler.Instance.SetBasicAuth(profUser,profToken);
+            
+        }
         
         if (trac || metr)
         {
@@ -184,16 +194,7 @@ public static class Config
             }
         }
 
-        if (profIsActive)
-        {
-             
-            Pyroscope.Profiler.Instance.SetCPUTrackingEnabled(profCpuTracking);
-            Pyroscope.Profiler.Instance.SetAllocationTrackingEnabled(profAllocationTracking);
-            Pyroscope.Profiler.Instance.SetContentionTrackingEnabled(profContentionTracking);
-            Pyroscope.Profiler.Instance.SetExceptionTrackingEnabled(profExceptionTracking);
-           // Pyroscope.Profiler.Instance.SetBasicAuth(profUser,profToken);
-            
-        }
+       
         
         #endregion
     }
