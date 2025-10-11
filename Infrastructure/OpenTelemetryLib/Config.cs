@@ -191,7 +191,7 @@ public static class Config
             Pyroscope.Profiler.Instance.SetAllocationTrackingEnabled(profAllocationTracking);
             Pyroscope.Profiler.Instance.SetContentionTrackingEnabled(profContentionTracking);
             Pyroscope.Profiler.Instance.SetExceptionTrackingEnabled(profExceptionTracking);
-            Pyroscope.Profiler.Instance.SetBasicAuth(profUser,profToken);
+           // Pyroscope.Profiler.Instance.SetBasicAuth(profUser,profToken);
             
         }
         
