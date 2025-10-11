@@ -1,5 +1,6 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
-FROM --platform=linux/amd64 pyroscope/pyroscope-dotnet:0.13.0-glibc AS profile
+﻿FROM --platform=linux/amd64 pyroscope/pyroscope-dotnet:0.13.0-glibc AS profile
+
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 
 USER root
 WORKDIR /app
