@@ -5,11 +5,9 @@
     restart: unless-stopped
     deploy:
       resources:
-        limits:
-          cpus: '0.50'
+        limits:         
           memory: 256M
-        reservations:
-          cpus: '0.25'
+        reservations:         
           memory: 128M
     networks:
       - net_backend
@@ -29,11 +27,9 @@
     restart: unless-stopped
     deploy:
       resources:
-        limits:
-          cpus: '0.50'
+        limits:        
           memory: 256M
-        reservations:
-          cpus: '0.25'
+        reservations:         
           memory: 128M
     networks:
       - net_backend
