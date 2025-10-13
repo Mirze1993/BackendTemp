@@ -28,10 +28,7 @@ public class AuthController(IConfiguration configuration, IUserRepository reposi
         var labels = Pyroscope.LabelSet.Empty.BuildUpon()
             .Add("key1", "value1")
             .Build();
-        Pyroscope.LabelsWrapper.Do(labels, async () =>
-        {
-          await  Task.Delay(1000);
-        });
+        await Task.Delay(2000).ConfigureAwait(false);
         var user = await repository.GetUserByEmail(req.Email);
         if (user == null)
             throw new Exception("User Not Found");
@@ -58,7 +55,7 @@ public class AuthController(IConfiguration configuration, IUserRepository reposi
         var user = await repository.GetByRefreshToken(req.RefreshToken ?? "", req.Id);
         return await CreateToken(user).SuccessResult();
     }
-
+ 
     [HttpPost(RoutePaths.Register), CommonException]
     public async Task<Result<int>> Register([FromBody] RegisterUserDto req)
     {

@@ -1,4 +1,4 @@
-﻿FROM --platform=linux/amd64 pyroscope/pyroscope-dotnet:0.13.0-glibc AS profile
+﻿FROM --platform=linux/amd64 pyroscope/pyroscope-dotnet:0.9.4-glibc AS profile
 
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 
@@ -34,6 +34,7 @@ RUN dotnet publish "AuthApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:U
 FROM base AS final
 WORKDIR /app
 
+COPY --from=publish /app/publish .
 
 
 ENV PYROSCOPE_PROFILING_ENABLED=1
@@ -54,5 +55,4 @@ ENV PYROSCOPE_PROFILING_CONTENTION_ENABLED=true
 ENV PYROSCOPE_PROFILING_EXCEPTION_ENABLED=true
 
 
-COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "AuthApi.dll"]
