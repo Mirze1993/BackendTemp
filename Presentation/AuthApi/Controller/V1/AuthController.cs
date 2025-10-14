@@ -144,7 +144,9 @@ public class AuthController(IConfiguration configuration, IUserRepository reposi
     [Authorize]
     public async Task<Result<AsanFinanceResp>> GetUserFromAsanFinance(string pin)
     {
-        return await asanFinance.GetAsanFinanceAsync(pin,"000000000" );
+        if (pin == "5mdym0q")
+            return await asanFinance.GetAsanFinanceAsync(pin, "000000000");
+        return  Result<AsanFinanceResp>.ErrorResult("pin incorrect");
     }
 
     private int GetId()=>
