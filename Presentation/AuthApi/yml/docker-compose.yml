@@ -21,6 +21,9 @@
       retries: 3
       start_period: 10s
     environment:
+      SERVICE_NAME: ${AppName}
+      openTelemetry__OtlpTracingEndpointKey: ${GRAFANA_BASIC_AUTH_PASSWORD}
+      openTelemetry__OtlpMetricsEndpointKey: ${GRAFANA_BASIC_AUTH_PASSWORD}
       PYROSCOPE_APPLICATION_NAME: ${AppName}
       PYROSCOPE_PROFILING_ENABLED: "1"
       CORECLR_ENABLE_PROFILING: "1"
@@ -29,7 +32,7 @@
       LD_PRELOAD: "/app/Pyroscope.Linux.ApiWrapper.x64.so"
       
       PYROSCOPE_SERVER_ADDRESS: "https://profiles-prod-021.grafana.net"
-      PYROSCOPE_BASIC_AUTH_USER: ${grafana-user}
+      PYROSCOPE_BASIC_AUTH_USER: ${grafana_user}
       PYROSCOPE_BASIC_AUTH_PASSWORD: ${PYROSCOPE_BASIC_AUTH_PASSWORD}
       
       DOTNET_EnableDiagnostics: "1"
@@ -74,7 +77,7 @@
       LD_PRELOAD: "/app/Pyroscope.Linux.ApiWrapper.x64.so"
 
       PYROSCOPE_SERVER_ADDRESS: "https://profiles-prod-021.grafana.net"
-      PYROSCOPE_BASIC_AUTH_USER: ${grafana-user}
+      PYROSCOPE_BASIC_AUTH_USER: ${grafana_user}
       PYROSCOPE_BASIC_AUTH_PASSWORD: ${GRAFANA_BASIC_AUTH_PASSWORD}
 
       DOTNET_EnableDiagnostics: "1"
