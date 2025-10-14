@@ -49,14 +49,14 @@ public class AuthController(IConfiguration configuration, IUserRepository reposi
         return await CreateToken(user).SuccessResult();
     }
 
-    [HttpPost(RoutePaths.LoginByRefreshToken)]
+    [HttpPost(RoutePaths.LoginByRefreshToken), CommonException, ReqRespLog]
     public async Task<Result<LoginResp>> LoginByRefreshToken(LoginByRefTokReq req)
     {
         var user = await repository.GetByRefreshToken(req.RefreshToken ?? "", req.Id);
         return await CreateToken(user).SuccessResult();
     }
  
-    [HttpPost(RoutePaths.Register), CommonException]
+    [HttpPost(RoutePaths.Register), CommonException, ReqRespLog]
     public async Task<Result<int>> Register([FromBody] RegisterUserDto req)
     {
         return await repository.Register(req).SuccessResult();
@@ -65,7 +65,7 @@ public class AuthController(IConfiguration configuration, IUserRepository reposi
     #region Porfile
     
     [HttpPost(RoutePaths.UpdateProfile)]
-    [Authorize]
+    [Authorize, CommonException, ReqRespLog]
     public async Task<Result<bool>> UpdateProfile(EditProfilReq req)
     {
         req.UserId = GetId();
@@ -73,7 +73,7 @@ public class AuthController(IConfiguration configuration, IUserRepository reposi
     }
 
     [HttpGet(RoutePaths.GetProfile)]
-    [Authorize]
+    [Authorize, CommonException, ReqRespLog]
     public async Task<Result<List<UserClaims>>> GetProfile([FromQuery]int? id)
     {
         return await repository.GetClaims( id??GetId(), "").SuccessResult();
@@ -81,12 +81,12 @@ public class AuthController(IConfiguration configuration, IUserRepository reposi
 
 
     [HttpGet(RoutePaths.GetRoleValue)]
-    [Authorize]
+    [Authorize, CommonException, ReqRespLog]
     public async Task<Result<List<RoleValueDto>>> GetRoleValue()
         =>await repository.GetRoleValue().SuccessResult();
     
     [HttpPost(RoutePaths.SetClaim)]
-    [Authorize]
+    [Authorize, CommonException, ReqRespLog]
     public async Task<Result<int>> SetClaim([FromBody]SetClaimReq req)
     {
         return await repository.SetClaim(req).SuccessResult();
@@ -134,7 +134,7 @@ public class AuthController(IConfiguration configuration, IUserRepository reposi
     #endregion
     
     [HttpGet(RoutePaths.SearchUsers)]
-    [Authorize]
+    [Authorize, CommonException, ReqRespLog]
     public async Task<Result<List<SearchUserResp>>> SearchUsers(string name)
     {
         return await repository.SearchUsers( name, GetId()).SuccessResult();

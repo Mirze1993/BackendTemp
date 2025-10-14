@@ -138,6 +138,13 @@ public static class Config
                                     otlpOptions.Endpoint = new Uri(otlpEndpoint!);
                                     otlpOptions.Headers = authHeader;
                                     otlpOptions.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.HttpProtobuf;
+                                    otlpOptions.BatchExportProcessorOptions = new BatchExportActivityProcessorOptions()
+                                    {
+                                        ScheduledDelayMilliseconds = 1000,  // default 5000
+                                        ExporterTimeoutMilliseconds = 30000,  // default 30s
+                                        MaxQueueSize = 2048,
+                                        MaxExportBatchSize = 512
+                                    };
                                 });
                             if (profSpanId)
                                 tracerProviderBuilder.AddProcessor(
