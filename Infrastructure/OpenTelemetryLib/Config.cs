@@ -138,6 +138,7 @@ public static class Config
                                     otlpOptions.Endpoint = new Uri(otlpEndpoint!);
                                     otlpOptions.Headers = authHeader;
                                     otlpOptions.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.HttpProtobuf;
+                                    otlpOptions.TimeoutMilliseconds = 60000;
                                     otlpOptions.BatchExportProcessorOptions = new BatchExportActivityProcessorOptions()
                                     {
                                         ScheduledDelayMilliseconds = 1000,  // default 5000

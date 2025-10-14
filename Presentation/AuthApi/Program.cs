@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text.Json.Serialization;
 using Appilcation.CustomMiddleware;
 using Appilcation.ExtensionMethods; 
@@ -8,6 +9,9 @@ using PersistenceOracle;
 using Refit;    
    
 var builder = WebApplication.CreateBuilder(args); 
+
+Activity.DefaultIdFormat = ActivityIdFormat.W3C;
+Activity.ForceDefaultIdFormat = true;
 
 builder.Services.AddApiVersioning(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
