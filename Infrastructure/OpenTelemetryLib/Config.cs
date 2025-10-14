@@ -210,7 +210,8 @@ public static class Config
             configuration.GetValue("openTelemetry:OtlpLogEndpoint", defaultValue: "");
         var luser = configuration.GetValue("openTelemetry:OtlpLogEndpointUser",
             defaultValue: "");
-        var lkey = configuration.GetValue("openTelemetry:OtlpLogEndpointKey", defaultValue: "");
+        var lkey = Environment.GetEnvironmentVariable("openTelemetry__OtlpLogEndpointKey")
+                   ?? configuration.GetValue<string>("openTelemetry:OtlpLogEndpointKey", "");
         var authHeader =
             $"Authorization=Basic {Convert.ToBase64String(Encoding.ASCII.GetBytes($"{luser}:{lkey}"))}";
         logging.AddOpenTelemetry(options =>

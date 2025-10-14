@@ -24,6 +24,7 @@
       SERVICE_NAME: ${AppName}
       openTelemetry__OtlpTracingEndpointKey: ${GRAFANA_BASIC_AUTH_PASSWORD}
       openTelemetry__OtlpMetricsEndpointKey: ${GRAFANA_BASIC_AUTH_PASSWORD}
+      openTelemetry__OtlpLogEndpointKey: ${GRAFANA_BASIC_AUTH_PASSWORD}
       PYROSCOPE_APPLICATION_NAME: ${AppName}
       PYROSCOPE_PROFILING_ENABLED: "1"
       CORECLR_ENABLE_PROFILING: "1"
@@ -69,6 +70,7 @@
       SERVICE_NAME: ${AppName}
       openTelemetry__OtlpTracingEndpointKey: ${GRAFANA_BASIC_AUTH_PASSWORD}
       openTelemetry__OtlpMetricsEndpointKey: ${GRAFANA_BASIC_AUTH_PASSWORD}
+      openTelemetry__OtlpLogEndpointKey: ${GRAFANA_BASIC_AUTH_PASSWORD}
       PYROSCOPE_APPLICATION_NAME: ${AppName}
       PYROSCOPE_PROFILING_ENABLED: "1"
       CORECLR_ENABLE_PROFILING: "1"
