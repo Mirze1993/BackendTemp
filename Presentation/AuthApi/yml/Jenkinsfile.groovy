@@ -2,6 +2,7 @@ pipeline {
     environment {
         dockerimagename = "mirze1993/auth-api:B${BUILD_NUMBER}"
         dockerImage = ""
+        GRAFANA_BASIC_AUTH_PASSWORD= credentials('grafana-password')
     }
     agent any
 

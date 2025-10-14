@@ -56,24 +56,18 @@ public static class Config
             configuration.GetValue("openTelemetry:Profiler:SetAllocationTracking", defaultValue: false);
         var profExceptionTracking =
             configuration.GetValue("openTelemetry:Profiler:SetAllocationTracking", defaultValue: false);
-        
         var profIsActive =
             configuration.GetValue("openTelemetry:Profiler:IsActive", defaultValue: false);
-        var profSetInstanceNameTag =
-            configuration.GetValue("openTelemetry:Profiler:SetInstanceNameTag", defaultValue: false);
-        var profUser =
-            configuration.GetValue("openTelemetry:Profiler:User","");
-        var profToken =
-            configuration.GetValue("openTelemetry:Profiler:EndpointKey", "");
       
-        
+        var mkey = Environment.GetEnvironmentVariable("openTelemetry__OtlpMetricsEndpointKey")
+                   ?? configuration.GetValue<string>("openTelemetry:OtlpMetricsEndpointKey", "");
         if (trac || metr)
         {
             var t = services.AddOpenTelemetry()
                 .ConfigureResource(mm =>
                 {
                     mm.AddService(
-                        serviceName: configuration.GetValue("openTelemetry:ServiceName", defaultValue: "Test")!,
+                        serviceName: Environment.GetEnvironmentVariable("SERVICE_NAME")??configuration.GetValue("openTelemetry:ServiceName", defaultValue: "Test")!,
                         serviceVersion: typeof(Config).Assembly.GetName().Version?.ToString() ?? "unknown",
                         serviceInstanceId: Environment.MachineName);
                 });
@@ -129,7 +123,8 @@ public static class Config
                                 configuration.GetValue("openTelemetry:OtlpTracingEndpoint", defaultValue: "");
                             var tuser = configuration.GetValue("openTelemetry:OtlpTracingEndpointUser",
                                 defaultValue: "");
-                            var tkey = configuration.GetValue("openTelemetry:OtlpTracingEndpointKey", defaultValue: "");
+                            var tkey = Environment.GetEnvironmentVariable("openTelemetry__OtlpTracingEndpointKey")
+                                       ?? configuration.GetValue<string>("openTelemetry:OtlpTracingEndpointKey", "");
                             var authHeader =
                                 $"Authorization=Basic {Convert.ToBase64String(Encoding.ASCII.GetBytes($"{tuser}:{tkey}"))}";
                             if (!string.IsNullOrEmpty(otlpEndpoint))
@@ -183,7 +178,8 @@ public static class Config
                                 configuration.GetValue("openTelemetry:OtlpMetricsEndpoint", defaultValue: "");
                             var muser = configuration.GetValue("openTelemetry:OtlpMetricsEndpointUser",
                                 defaultValue: "");
-                            var mkey = configuration.GetValue("openTelemetry:OtlpMetricsEndpointKey", defaultValue: "");
+                            var mkey = Environment.GetEnvironmentVariable("openTelemetry__OtlpMetricsEndpointKey")
+                                       ?? configuration.GetValue<string>("openTelemetry:OtlpMetricsEndpointKey", "");
                             var authHeader =
                                 $"Authorization=Basic {Convert.ToBase64String(Encoding.ASCII.GetBytes($"{muser}:{mkey}"))}";
                             if (!string.IsNullOrEmpty(otlpEndpoint))
