@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Domain.Enums;
 using Domain.Tool;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -18,9 +19,10 @@ public class TokenTool
 
         var claims = new List<Claim>
         {
-            new("Name", dto.Name ?? ""),
-            new("Email", dto.Email ?? ""),
-            new("Id", dto.Id.ToString() ?? "")
+            new(UserClaimType.Name, dto.Name ?? ""),
+            new(UserClaimType.Email, dto.Email ?? ""),
+            new(UserClaimType.Id, dto.Id.ToString() ?? ""),
+            new(UserClaimType.ProfilPictur, dto.Photo ?? "")
         };
 
         if (dto.Roles is not null)

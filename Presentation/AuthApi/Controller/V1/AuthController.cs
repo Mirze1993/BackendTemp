@@ -1,10 +1,13 @@
-﻿using Appilcation.CustomerAttributes;
+﻿using System.Security.Claims;
+using Appilcation.CustomerAttributes;
 using Appilcation.IRepository;
 using Appilcation.Tool;
 using Asp.Versioning;
+using AuthApi.Hubs;
 using Domain;
 using Domain.DTO.User;
 using Domain.Entities.User;
+using Domain.Enums;
 using Domain.Request;
 using Domain.Request.User;
 using Domain.Response;
@@ -20,7 +23,11 @@ namespace AuthApi.Controller.V1;
 
 [ApiController]
 [ApiVersion("1.0")]
-public class AuthController(IConfiguration configuration, IUserRepository repository,IAsanFinance asanFinance) : ControllerBase
+public class AuthController(
+    IConfiguration configuration,
+    IUserRepository repository,
+    IAsanFinance asanFinance,
+    ICallMemory callMemory) : ControllerBase
 {
     [HttpPost(RoutePaths.Login), CommonException, ReqRespLog]
     public async Task<Result<LoginResp>> Login([FromBody] LoginReq req)
@@ -46,6 +53,10 @@ public class AuthController(IConfiguration configuration, IUserRepository reposi
             throw new Exception("Password incorrect");
         }
 
+        // var claims = await repository.GetClaims(user.Id, "");
+        // user.Name= claims.FirstOrDefault(mm => mm.Type == UserClaimType.Name)?.Value;
+        // user.Photo= claims.FirstOrDefault(mm => mm.Type == UserClaimType.ProfilPictur)?.Value;
+
         return await CreateToken(user).SuccessResult();
     }
 
@@ -53,9 +64,12 @@ public class AuthController(IConfiguration configuration, IUserRepository reposi
     public async Task<Result<LoginResp>> LoginByRefreshToken(LoginByRefTokReq req)
     {
         var user = await repository.GetByRefreshToken(req.RefreshToken ?? "", req.Id);
+        // var claims = await repository.GetClaims(user.Id, "");
+        // user.Name= claims.FirstOrDefault(mm => mm.Type == UserClaimType.Name)?.Value;
+        // user.Photo= claims.FirstOrDefault(mm => mm.Type == UserClaimType.ProfilPictur)?.Value;
         return await CreateToken(user).SuccessResult();
     }
- 
+
     [HttpPost(RoutePaths.Register), CommonException, ReqRespLog]
     public async Task<Result<int>> Register([FromBody] RegisterUserDto req)
     {
@@ -63,31 +77,31 @@ public class AuthController(IConfiguration configuration, IUserRepository reposi
     }
 
     #region Porfile
-    
+
     [HttpPost(RoutePaths.UpdateProfile)]
     [Authorize, CommonException, ReqRespLog]
     public async Task<Result<bool>> UpdateProfile(EditProfilReq req)
     {
         req.UserId = GetId();
-        return await repository.EditProfile( req ).SuccessResult();
+        return await repository.EditProfile(req).SuccessResult();
     }
 
     [HttpGet(RoutePaths.GetProfile)]
     [Authorize, CommonException, ReqRespLog]
-    public async Task<Result<List<UserClaims>>> GetProfile([FromQuery]int? id)
+    public async Task<Result<List<UserClaims>>> GetProfile([FromQuery] int? id)
     {
-        return await repository.GetClaims( id??GetId(), "").SuccessResult();
+        return await repository.GetClaims(id ?? GetId(), "").SuccessResult();
     }
 
 
     [HttpGet(RoutePaths.GetRoleValue)]
     [Authorize, CommonException, ReqRespLog]
     public async Task<Result<List<RoleValueDto>>> GetRoleValue()
-        =>await repository.GetRoleValue().SuccessResult();
-    
+        => await repository.GetRoleValue().SuccessResult();
+
     [HttpPost(RoutePaths.SetClaim)]
     [Authorize, CommonException, ReqRespLog]
-    public async Task<Result<int>> SetClaim([FromBody]SetClaimReq req)
+    public async Task<Result<int>> SetClaim([FromBody] SetClaimReq req)
     {
         return await repository.SetClaim(req).SuccessResult();
     }
@@ -95,65 +109,69 @@ public class AuthController(IConfiguration configuration, IUserRepository reposi
     #endregion
 
     #region notification
+
     [HttpGet(RoutePaths.GetNotif)]
     [Authorize]
     public async Task<Result<List<NotifResp>>> GetNotif()
-        =>await repository.GetNotif(GetId()).SuccessResult();
- 
- 
+        => await repository.GetNotif(GetId()).SuccessResult();
+
+
     [HttpGet(RoutePaths.GetUnReadNotifCount)]
     [Authorize]
-    public async  Task<Result<int>> GetUnReadNotifCount()
-        =>await repository.GetUnReadNotifCount( GetId()).SuccessResult();
- 
- 
+    public async Task<Result<int>> GetUnReadNotifCount()
+        => await repository.GetUnReadNotifCount(GetId()).SuccessResult();
+
+
     [HttpPost(RoutePaths.ReadNotif)]
     [Authorize]
-    public async Task<Result> ReadNotif([FromBody]IntListReq ids)
-        =>await repository.ReadNotif(ids).SuccessResult();
- 
- 
+    public async Task<Result> ReadNotif([FromBody] IntListReq ids)
+        => await repository.ReadNotif(ids).SuccessResult();
+
+
     [HttpPost(RoutePaths.InstPosition)]
     [Authorize]
-    public async Task<Result> InstPosition([FromBody]PositionReq req)
-        =>await repository.InstPosition( req).SuccessResult();
- 
- 
+    public async Task<Result> InstPosition([FromBody] PositionReq req)
+        => await repository.InstPosition(req).SuccessResult();
+
+
     [HttpGet(RoutePaths.GetPosition)]
     [Authorize]
     public async Task<Result<List<PositionReq>>> GetPosition()
-        =>await repository.GetPosition().SuccessResult();
- 
- 
+        => await repository.GetPosition().SuccessResult();
+
+
     [HttpDelete(RoutePaths.DeletePosition)]
     [Authorize]
-    public async Task<Result> DeletePosition([FromRoute]int id)
-        =>await repository.DeletePosition(id).SuccessResult();
-    
+    public async Task<Result> DeletePosition([FromRoute] int id)
+        => await repository.DeletePosition(id).SuccessResult();
 
     #endregion
-    
+
     [HttpGet(RoutePaths.SearchUsers)]
     [Authorize, CommonException, ReqRespLog]
     public async Task<Result<List<SearchUserResp>>> SearchUsers(string name)
     {
-        return await repository.SearchUsers( name, GetId()).SuccessResult();
+        var list = await repository.SearchUsers(name, GetId());
+        var activeUsers = callMemory.GetUsers();
+        if (activeUsers != null)
+            list.ForEach(mm =>
+                mm.IsActive =
+                    activeUsers.Any(au => Convert.ToInt32(au.UserId) == mm.AppUserId));
+        return list.SuccessResult();
     }
-    
+
     [HttpGet(RoutePaths.GetUserFromAsanFinance)]
     [Authorize]
     public async Task<Result<AsanFinanceResp>> GetUserFromAsanFinance(string pin)
     {
         if (pin == "5mdym0q")
             return await asanFinance.GetAsanFinanceAsync(pin, "000000000");
-        return  Result<AsanFinanceResp>.ErrorResult("pin incorrect");
+        return Result<AsanFinanceResp>.ErrorResult("pin incorrect");
     }
 
-    private int GetId()=>
+    private int GetId() =>
         int.Parse(User.Claims.First(mm => mm.Type == "Id").Value);
-    
-    
-    
+
 
     private async Task<LoginResp> CreateToken(GetUserDto user)
     {
@@ -161,6 +179,8 @@ public class AuthController(IConfiguration configuration, IUserRepository reposi
         {
             Email = user.Email,
             Id = user.Id,
+            Name = user.Name,
+            Photo = user.Photo,
             //Roles = roles.ToList()
         });
         var refToken = TokenTool.CreateRefreshToken();

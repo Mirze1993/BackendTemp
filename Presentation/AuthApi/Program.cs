@@ -1,7 +1,8 @@
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 using Appilcation.CustomMiddleware;
-using Appilcation.ExtensionMethods; 
+using Appilcation.ExtensionMethods;
+using AuthApi.Hubs;
 using ExternalServices;
 using OpenTelemetryLib;
 using PersistenceMongo;
@@ -49,14 +50,12 @@ builder.Services.AddControllers()
 // builder.Logging.AddFilter("Microsoft", LogLevel.Warning);
 // builder.Host.UseNLog();
 #endregion
-
-#region cors
-
 #if DEBUG
 
 #else
 builder.WebHost.UseKestrel(). UseUrls("http://+:80");
 #endif
+#region cors
 
 builder.Services.AddCors(options =>
 {
@@ -66,7 +65,15 @@ builder.Services.AddCors(options =>
             policy
                 .AllowAnyMethod()
                 .AllowAnyHeader()
-                .AllowAnyOrigin();
+                .AllowCredentials()
+                .WithOrigins("http://localhost:4200",
+                    "http://localhost:4201",
+                    "http://localhost:4202",
+                    "http://localhost:4204",
+                    "https://mc-blog.space",
+                    "https://www.mc-blog.space",
+                    "mc-blog.space"
+                );
         });
     options.AddPolicy(name: "AllowOnlySomeOrigins",
         configurePolicy: policy =>
@@ -80,6 +87,7 @@ builder.Services.AddCors(options =>
 
 #region RegisterService
 builder.Services.AddTransient<ReqRespLogMiddleware>();
+builder.Services.AddSingleton<ICallMemory,CallInMemory>();
 
 #endregion
 
@@ -96,6 +104,6 @@ app.UseHttpsRedirection();
 app.UseAuth();
 
 app.MapControllers();
-
+app.MapHub<CallHub>("/callChat");
 app.Run();
 

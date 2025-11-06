@@ -36,8 +36,9 @@ public static class JwtAuthentication
 
                         // If the request is for our hub...
                         var path = context.HttpContext.Request.Path;
-                        if (!string.IsNullOrEmpty(accessToken) &&
-                            path.StartsWithSegments("/chat"))
+                        if (!string.IsNullOrEmpty(accessToken)
+                            &&
+                            (path.StartsWithSegments("/chat") || path.StartsWithSegments("/callChat")))
                             // Read the token out of the query string
                             context.Token = accessToken;
                         return Task.CompletedTask;

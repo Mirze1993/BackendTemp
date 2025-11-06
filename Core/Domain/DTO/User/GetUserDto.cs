@@ -4,6 +4,8 @@ public class GetUserDto
 {
     public string? Email { get; set; }
     public string? Password { get; set; }
+    public string? Name { get; set; }
+    public string? Photo { get; set; }
     public int Id { get; set; }
     public int FailedCount { get; set; }
     public DateTime LastFailedLogin { get; set; }
