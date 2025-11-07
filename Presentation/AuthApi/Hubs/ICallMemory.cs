@@ -1,3 +1,5 @@
+using AuthApi.Hubs.Models;
+
 namespace AuthApi.Hubs;
 
 public interface ICallMemory
@@ -6,4 +8,8 @@ public interface ICallMemory
     CallUserModel GetConnectionById(string userId);
     void AddUser(CallUserModel user);
     void RemoveUser(string connectionId);
+    
+    VideoCallDetail GetVideoCall(string guid);
+
+    void AddVideoCall(VideoCallDetail videoCallDetail);
 }

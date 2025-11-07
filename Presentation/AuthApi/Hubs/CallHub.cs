@@ -1,4 +1,6 @@
+using System.Runtime.InteropServices.ComTypes;
 using Appilcation.IRepository;
+using AuthApi.Hubs.Models;
 using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
@@ -10,7 +12,7 @@ public class CallHub(ICallMemory memory,IUserRepository repository) : Hub<ICallC
 {
 
 
-    public async Task StartOfferVideoCall(string userId)
+    public async Task StartOfferVideoCall(string userId,string guid)
     {
         var callerEmail = Context.User?.Claims.First(mm => mm.Type ==UserClaimType.Email).Value;
         if (callerEmail == null)
@@ -19,9 +21,29 @@ public class CallHub(ICallMemory memory,IUserRepository repository) : Hub<ICallC
         var claims = await repository.GetClaims(Convert.ToInt32( userId), "");
         var name= claims.FirstOrDefault(mm => mm.Type == UserClaimType.Name)?.Value??callerEmail;
         var photo= claims.FirstOrDefault(mm => mm.Type == UserClaimType.ProfilPictur)?.Value??"";
+        var callerId = Context.User?.Claims.First(mm => mm.Type ==UserClaimType.Id).Value;;
         
         var receiver= memory.GetConnectionById(userId);
-        await Clients.Client(receiver.ConnectionId).VideoCallOfferCome(name,photo);
+       
+        memory.AddVideoCall(new()
+        {
+            Guid = guid,
+            FromUserId = callerId,
+            ToUserId = userId,
+            Status = "Pending"
+        });
+        
+        await Clients.Client(receiver.ConnectionId).VideoCallOfferCome(name,photo,callerId,guid);
+    }
+
+    public async Task EndOfferVideoCall(string guid)
+    {
+       var d= memory.GetVideoCall(guid);
+        
+        var fromUser= memory.GetConnectionById(d.FromUserId);
+        var toUser= memory.GetConnectionById(d.ToUserId);
+        await Clients.Client(fromUser.ConnectionId).VideoCallOfferEnd();
+        await Clients.Client(toUser.ConnectionId).VideoCallOfferEnd();
     }
     
 
@@ -38,7 +60,7 @@ public class CallHub(ICallMemory memory,IUserRepository repository) : Hub<ICallC
         
         var email = Context.User?.Claims.First(mm => mm.Type ==UserClaimType.Email).Value;
         
-        memory.AddUser(new CallUserModel
+        memory.AddUser(new CallUserModel()
         {
             UserId = userId,
             Name =  name??"",

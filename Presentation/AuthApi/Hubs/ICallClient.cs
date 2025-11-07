@@ -2,5 +2,7 @@ namespace AuthApi.Hubs;
 
 public interface ICallClient
 {
-    Task VideoCallOfferCome( string userName,string profilePictures );
+    Task VideoCallOfferCome( string callerName,string callerPhoto,string callerId ,string guid);
+    Task VideoCallOfferEnd ( );
+    Task VideoCallOfferAccept ( );
 }

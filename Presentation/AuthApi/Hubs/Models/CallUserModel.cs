@@ -1,4 +1,4 @@
-namespace AuthApi.Hubs;
+namespace AuthApi.Hubs.Models;
 
 public class CallUserModel
 {
