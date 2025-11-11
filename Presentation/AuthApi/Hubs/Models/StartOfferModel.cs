@@ -3,6 +3,6 @@
 public class StartOfferModel
 {
     public string UserId { get; set; }=string.Empty;
-    public int Timer { get; set; }
-    public bool IsEnd  { get; set; }
+    public string Guid { get; set; }=string.Empty;
+    public RtcSessionDescriptionInit? SessionDescriptionInit  { get; set; }
 }

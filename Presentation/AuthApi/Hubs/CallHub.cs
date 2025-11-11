@@ -42,8 +42,38 @@ public class CallHub(ICallMemory memory,IUserRepository repository) : Hub<ICallC
         
         var fromUser= memory.GetConnectionById(d.FromUserId);
         var toUser= memory.GetConnectionById(d.ToUserId);
-        await Clients.Client(fromUser.ConnectionId).VideoCallOfferEnd();
-        await Clients.Client(toUser.ConnectionId).VideoCallOfferEnd();
+        await Clients.Client(fromUser.ConnectionId).EndOfferVideoCallHandle();
+        await Clients.Client(toUser.ConnectionId).EndOfferVideoCallHandle();
+    }
+
+    public async Task AcceptVideoCall(string guid)
+    {
+        var d= memory.GetVideoCall(guid);
+        
+        var fromUser= memory.GetConnectionById(d.FromUserId);
+        var toUser= memory.GetConnectionById(d.ToUserId);
+        await Clients.Client(fromUser.ConnectionId).AcceptVideoCallHandle();
+        await Clients.Client(toUser.ConnectionId).AcceptVideoCallHandle();
+    }
+
+
+    public async Task RtcSignal(string guid ,dynamic data)
+    {
+        Console.WriteLine(@"signal guid "+guid+" data"+data.ToString());
+        var d= memory.GetVideoCall(guid);
+        var callerId = Context.User?.Claims.First(mm => mm.Type ==UserClaimType.Id).Value;
+
+        if (callerId == d.FromUserId)
+        {
+            var toUser= memory.GetConnectionById(d.ToUserId);
+            await Clients.Client(toUser.ConnectionId).RtcSignalHandle(data);
+        }
+        else
+        {
+            var fromUser= memory.GetConnectionById(d.FromUserId);
+            await Clients.Client(fromUser.ConnectionId).RtcSignalHandle(data);  
+        }
+        
     }
     
 

@@ -66,10 +66,16 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials()
-                .WithOrigins("http://localhost:4200",
+                .WithOrigins(
+                    "http://localhost:4200",
+                    "https://localhost:4200",
                     "http://localhost:4201",
                     "http://localhost:4202",
                     "http://localhost:4204",
+                    "http://192.168.31.146:4200",
+                    "http://192.168.31.146",
+                    "http://192.168.31.146:5197",
+                    "https://192.168.31.146:4200",
                     "https://mc-blog.space",
                     "https://www.mc-blog.space",
                     "mc-blog.space"
