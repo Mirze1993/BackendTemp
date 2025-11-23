@@ -6,7 +6,8 @@ using AuthApi.Hubs;
 using ExternalServices;
 using OpenTelemetryLib;
 using PersistenceMongo;
-using PersistenceOracle;  
+using PersistenceOracle;
+using QuartzScheduler;
 using Refit;    
    
 var builder = WebApplication.CreateBuilder(args); 
@@ -22,6 +23,7 @@ builder.Services.AddOpenApiCustomer(builder.Configuration);
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
 await builder.Services.OracleDbConfig(builder.Configuration);
+builder.Services.QuartzConfig(builder.Configuration);
 
 builder.Services.AddOpenTelemetryServices(builder.Configuration);
 builder.Logging.AddOpenTelemetryLogging(builder.Configuration);

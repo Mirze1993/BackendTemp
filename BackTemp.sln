@@ -35,6 +35,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{3C4E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTelemetryLib", "Infrastructure\OpenTelemetryLib\OpenTelemetryLib.csproj", "{D0FF5A42-2F73-4D5F-98B9-082E9212A5E1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuartzScheduler", "Infrastructure\QuartzScheduler\QuartzScheduler.csproj", "{A424926D-3C27-44AB-BF97-E1929C20BD35}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +54,7 @@ Global
 		{C940BABA-557D-42E7-A3E2-EDBB55071D7C} = {30E538D3-0EB8-4C5C-91FC-784BD5E5D41F}
 		{1B0D6206-B65D-4E5A-AA75-F3D1D1AD88F9} = {30E538D3-0EB8-4C5C-91FC-784BD5E5D41F}
 		{D0FF5A42-2F73-4D5F-98B9-082E9212A5E1} = {30E538D3-0EB8-4C5C-91FC-784BD5E5D41F}
+		{A424926D-3C27-44AB-BF97-E1929C20BD35} = {30E538D3-0EB8-4C5C-91FC-784BD5E5D41F}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{10F2D62E-903F-4B7E-AE28-7201E0F8BB73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -98,5 +101,9 @@ Global
 		{D0FF5A42-2F73-4D5F-98B9-082E9212A5E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0FF5A42-2F73-4D5F-98B9-082E9212A5E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0FF5A42-2F73-4D5F-98B9-082E9212A5E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A424926D-3C27-44AB-BF97-E1929C20BD35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A424926D-3C27-44AB-BF97-E1929C20BD35}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A424926D-3C27-44AB-BF97-E1929C20BD35}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A424926D-3C27-44AB-BF97-E1929C20BD35}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

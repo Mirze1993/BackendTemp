@@ -20,12 +20,17 @@
       <ProjectReference Include="..\..\Infrastructure\OpenTelemetryLib\OpenTelemetryLib.csproj" />
       <ProjectReference Include="..\..\Infrastructure\PersistenceMongo\PersistenceMongo.csproj" />
       <ProjectReference Include="..\..\Infrastructure\PersistenceOracle\PersistenceOracle.csproj" />
+      <ProjectReference Include="..\..\Infrastructure\QuartzScheduler\QuartzScheduler.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <Content Include="..\..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="TestArchived\" />
     </ItemGroup>
 
 </Project>
