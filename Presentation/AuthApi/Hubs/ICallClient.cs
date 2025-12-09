@@ -8,5 +8,11 @@ public interface ICallClient
     Task EndOfferVideoCallHandle (string result );
     Task AcceptVideoCallHandle ( );
     
-    Task RtcSignalHandle(dynamic data);
+    
+    Task StartOfferRtcChatHandle( string callerName,string callerPhoto,string callerId ,string guid);
+    Task EndOfferRtcChatHandle (string result );
+    Task AcceptRtcChatHandle ( );
+    
+    Task VideoRtcSignalHandle(dynamic data);
+    Task ChatRtcSignalHandle(dynamic data);
 }

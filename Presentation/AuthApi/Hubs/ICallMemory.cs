@@ -4,12 +4,16 @@ namespace AuthApi.Hubs;
 
 public interface ICallMemory
 {
-    IEnumerable<CallUserModel> GetUsers();
-    CallUserModel? GetConnectionById(string userId);
-    void AddUser(CallUserModel user);
+    IEnumerable<ActiveUserModel> GetUsers();
+    ActiveUserModel? GetConnectionById(string userId);
+    void AddUser(ActiveUserModel user);
     void RemoveUser(string connectionId);
     
     VideoCallDetail GetVideoCall(string guid);
 
     void AddVideoCall(VideoCallDetail videoCallDetail);
+
+    RtcChatDetail GetRtcChat(string guid);
+
+    void AddRtcChat(RtcChatDetail videoCallDetail);
 }

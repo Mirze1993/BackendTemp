@@ -20,7 +20,7 @@ public class CallHub(ICallMemory memory, IUserRepository repository) : Hub<ICall
         var name = claims.FirstOrDefault(mm => mm.Type == UserClaimType.Name)?.Value ?? callerEmail;
         var photo = claims.FirstOrDefault(mm => mm.Type == UserClaimType.ProfilPictur)?.Value ?? "";
         var callerId = Context.User?.Claims.First(mm => mm.Type == UserClaimType.Id).Value;
-        
+
 
         var receiver = memory.GetConnectionById(userId);
         if (receiver == null)
@@ -64,23 +64,97 @@ public class CallHub(ICallMemory memory, IUserRepository repository) : Hub<ICall
     }
 
 
-    public async Task RtcSignal(string guid, dynamic data)
+    public async Task VideoRtcSignal(string guid,  dynamic data)
     {
-        var d = memory.GetVideoCall(guid);
         var callerId = Context.User?.Claims.First(mm => mm.Type == UserClaimType.Id).Value;
 
+        var d = memory.GetVideoCall(guid);
         if (callerId == d.FromUserId)
         {
             var toUser = memory.GetConnectionById(d.ToUserId);
-            await Clients.Client(toUser.ConnectionId).RtcSignalHandle(data);
+            await Clients.Client(toUser.ConnectionId).VideoRtcSignalHandle( data);
         }
         else
         {
             var fromUser = memory.GetConnectionById(d.FromUserId);
-            await Clients.Client(fromUser.ConnectionId).RtcSignalHandle(data);
+            await Clients.Client(fromUser.ConnectionId).VideoRtcSignalHandle( data);
         }
     }
 
+
+    #region RtcChat
+
+    public async Task StartOfferRtcChat(string userId, string guid)
+    {
+        var callerEmail = Context.User?.Claims.First(mm => mm.Type == UserClaimType.Email).Value;
+        if (callerEmail == null)
+            return;
+
+        var claims = await repository.GetClaims(Convert.ToInt32(userId), "");
+        var name = claims.FirstOrDefault(mm => mm.Type == UserClaimType.Name)?.Value ?? callerEmail;
+        var photo = claims.FirstOrDefault(mm => mm.Type == UserClaimType.ProfilPictur)?.Value ?? "";
+        var callerId = Context.User?.Claims.First(mm => mm.Type == UserClaimType.Id).Value;
+
+
+        var receiver = memory.GetConnectionById(userId);
+        if (receiver == null)
+        {
+            await Clients.Caller.EndOfferRtcChatHandle("NotActive");
+            return;
+        }
+
+
+        memory.AddRtcChat(new()
+        {
+            Guid = guid,
+            FromUserId = callerId,
+            ToUserId = userId,
+            Status = "Pending"
+        });
+
+        await Clients.Client(receiver.ConnectionId).StartOfferRtcChatHandle(name, photo, callerId, guid);
+    }
+
+    public async Task EndOfferRtcChat(string guid, string result)
+    {
+        var d = memory.GetRtcChat(guid);
+
+        var fromUser = memory.GetConnectionById(d.FromUserId);
+        var toUser = memory.GetConnectionById(d.ToUserId);
+        if (fromUser != null)
+            await Clients.Client(fromUser.ConnectionId).EndOfferRtcChatHandle(result);
+        if (toUser != null)
+            await Clients.Client(toUser.ConnectionId).EndOfferRtcChatHandle(result);
+    }
+
+    public async Task AcceptRtcChat(string guid)
+    {
+        var d = memory.GetRtcChat(guid);
+
+        var fromUser = memory.GetConnectionById(d.FromUserId);
+        var toUser = memory.GetConnectionById(d.ToUserId);
+        await Clients.Client(fromUser.ConnectionId).AcceptRtcChatHandle();
+        await Clients.Client(toUser.ConnectionId).AcceptRtcChatHandle();
+    }
+
+    public async Task ChatRtcSignal(string guid, dynamic data)
+    {
+        var callerId = Context.User?.Claims.First(mm => mm.Type == UserClaimType.Id).Value;
+
+        var d = memory.GetRtcChat(guid);
+        if (callerId == d.FromUserId)
+        {
+            var toUser = memory.GetConnectionById(d.ToUserId);
+            await Clients.Client(toUser.ConnectionId).ChatRtcSignalHandle(data);
+        }
+        else
+        {
+            var fromUser = memory.GetConnectionById(d.FromUserId);
+            await Clients.Client(fromUser.ConnectionId).ChatRtcSignalHandle(data);
+        }
+    }
+
+    #endregion
 
     public override async Task OnConnectedAsync()
     {
@@ -95,7 +169,7 @@ public class CallHub(ICallMemory memory, IUserRepository repository) : Hub<ICall
 
         var email = Context.User?.Claims.First(mm => mm.Type == UserClaimType.Email).Value;
 
-        memory.AddUser(new CallUserModel()
+        memory.AddUser(new ActiveUserModel()
         {
             UserId = userId,
             Name = name ?? "",

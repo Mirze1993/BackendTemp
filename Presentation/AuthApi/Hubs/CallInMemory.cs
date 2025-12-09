@@ -5,22 +5,23 @@ namespace AuthApi.Hubs;
 
 public class CallInMemory : ICallMemory
 {
-    private static readonly ConcurrentDictionary<string, CallUserModel> ActiveUser = new();
+    private static readonly ConcurrentDictionary<string, ActiveUserModel> ActiveUser = new();
     private static readonly ConcurrentDictionary<string, VideoCallDetail> VideoCall = new();
+    private static readonly ConcurrentDictionary<string,RtcChatDetail> RtcChat = new();
 
 
-    public IEnumerable<CallUserModel> GetUsers()
+    public IEnumerable<ActiveUserModel> GetUsers()
     {
         return ActiveUser.Values;
     }
 
-    public CallUserModel? GetConnectionById(string userId)
+    public ActiveUserModel? GetConnectionById(string userId)
     {
         var b = ActiveUser.TryGetValue(userId, out var d);
         return b ? d : null;
     }
 
-    public void AddUser(CallUserModel user)
+    public void AddUser(ActiveUserModel user)
     {
         if (ActiveUser.ContainsKey(user.UserId))
             ActiveUser.Remove(user.UserId, out var t);
@@ -43,5 +44,14 @@ public class CallInMemory : ICallMemory
         if (VideoCall.ContainsKey(videoCallDetail.Guid))
             VideoCall.Remove(videoCallDetail.Guid, out var t);
         VideoCall.TryAdd(videoCallDetail.Guid, videoCallDetail);
+    }
+    
+    public RtcChatDetail GetRtcChat(string guid) => RtcChat[guid];
+
+    public void AddRtcChat(RtcChatDetail videoCallDetail)
+    {
+        if (RtcChat.ContainsKey(videoCallDetail.Guid))
+            RtcChat.Remove(videoCallDetail.Guid, out var t);
+        RtcChat.TryAdd(videoCallDetail.Guid, videoCallDetail);
     }
 }

@@ -1,6 +1,6 @@
 namespace AuthApi.Hubs.Models;
 
-public class CallUserModel
+public class ActiveUserModel
 {
     public string ConnectionId { get; set; }=string.Empty;
     public string UserId { get; set; }=string.Empty;
