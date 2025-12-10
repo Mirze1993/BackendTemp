@@ -84,7 +84,7 @@ public class CallHub(ICallMemory memory, IUserRepository repository) : Hub<ICall
 
     #region RtcChat
 
-    public async Task StartOfferRtcChat(string userId, string guid)
+    public async Task StartOfferRtcChat(string userId, string guid,string publicKey)
     {
         var callerEmail = Context.User?.Claims.First(mm => mm.Type == UserClaimType.Email).Value;
         if (callerEmail == null)
@@ -112,7 +112,7 @@ public class CallHub(ICallMemory memory, IUserRepository repository) : Hub<ICall
             Status = "Pending"
         });
 
-        await Clients.Client(receiver.ConnectionId).StartOfferRtcChatHandle(name, photo, callerId, guid);
+        await Clients.Client(receiver.ConnectionId).StartOfferRtcChatHandle(name, photo, callerId, guid,publicKey);
     }
 
     public async Task EndOfferRtcChat(string guid, string result)
@@ -127,14 +127,14 @@ public class CallHub(ICallMemory memory, IUserRepository repository) : Hub<ICall
             await Clients.Client(toUser.ConnectionId).EndOfferRtcChatHandle(result);
     }
 
-    public async Task AcceptRtcChat(string guid)
+    public async Task AcceptRtcChat(string guid,string publicKey)
     {
         var d = memory.GetRtcChat(guid);
 
         var fromUser = memory.GetConnectionById(d.FromUserId);
         var toUser = memory.GetConnectionById(d.ToUserId);
-        await Clients.Client(fromUser.ConnectionId).AcceptRtcChatHandle();
-        await Clients.Client(toUser.ConnectionId).AcceptRtcChatHandle();
+        await Clients.Client(fromUser.ConnectionId).AcceptRtcChatHandle(publicKey);
+        //await Clients.Client(toUser.ConnectionId).AcceptRtcChatHandle(publicKey);
     }
 
     public async Task ChatRtcSignal(string guid, dynamic data)

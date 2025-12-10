@@ -9,9 +9,9 @@ public interface ICallClient
     Task AcceptVideoCallHandle ( );
     
     
-    Task StartOfferRtcChatHandle( string callerName,string callerPhoto,string callerId ,string guid);
+    Task StartOfferRtcChatHandle( string callerName,string callerPhoto,string callerId ,string guid,string publicKey);
     Task EndOfferRtcChatHandle (string result );
-    Task AcceptRtcChatHandle ( );
+    Task AcceptRtcChatHandle ( string publicKey);
     
     Task VideoRtcSignalHandle(dynamic data);
     Task ChatRtcSignalHandle(dynamic data);
