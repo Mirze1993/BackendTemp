@@ -68,6 +68,7 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials()
+                .SetIsOriginAllowedToAllowWildcardSubdomains()
                 .WithOrigins(
                     "http://localhost:4200",
                     "https://localhost:4200",
@@ -79,8 +80,11 @@ builder.Services.AddCors(options =>
                     "http://192.168.31.146:5197",
                     "https://192.168.31.146:4200",
                     "https://mc-blog.space",
+                    "https://*.mc-blog.space",
                     "https://www.mc-blog.space",
-                    "mc-blog.space"
+                    "https://www.*.mc-blog.space",
+                    "mc-blog.space",
+                    "*.mc-blog.space"
                 );
         });
     options.AddPolicy(name: "AllowOnlySomeOrigins",

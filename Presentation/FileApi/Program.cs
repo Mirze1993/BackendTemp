@@ -28,9 +28,25 @@ builder.Services.AddCors(options =>
         });
     options.AddPolicy(name: "AllowOnlySomeOrigins",
         configurePolicy: policy =>
-        {
-            policy.WithOrigins("https://example1.com",
-                "https://example2.com");
+        {policy
+            .SetIsOriginAllowedToAllowWildcardSubdomains()
+                .WithOrigins(
+                    "http://localhost:4200",
+                    "https://localhost:4200",
+                    "http://localhost:4201",
+                    "http://localhost:4202",
+                    "http://localhost:4204",
+                    "http://192.168.31.146:4200",
+                    "http://192.168.31.146",
+                    "http://192.168.31.146:5197",
+                    "https://192.168.31.146:4200",
+                    "https://mc-blog.space",
+                    "https://*.mc-blog.space",
+                    "https://www.mc-blog.space",
+                    "https://www.*.mc-blog.space",
+                    "mc-blog.space",
+                    "*.mc-blog.space"
+                );
         });
 });
 
