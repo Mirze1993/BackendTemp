@@ -13,6 +13,8 @@ services:
           memory: 128M    
     expose:
       - "80"
+    ports:
+      - "5014:80"
     networks:
       - net_backend
       - shared-web
