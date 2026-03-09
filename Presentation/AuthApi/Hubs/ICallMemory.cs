@@ -10,8 +10,11 @@ public interface ICallMemory
     void RemoveUser(string connectionId);
     
     VideoCallDetail GetVideoCall(string guid);
+    VideoCallDetail GetAdminVideoCall(string guid);
+    IEnumerable<VideoCallDetail> GetAllAdminVideoCall();
 
     void AddVideoCall(VideoCallDetail videoCallDetail);
+    void AddAdminVideoCall(VideoCallDetail videoCallDetail);
 
     RtcChatDetail GetRtcChat(string guid);
 

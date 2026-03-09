@@ -7,6 +7,7 @@ public class CallInMemory : ICallMemory
 {
     private static readonly ConcurrentDictionary<string, ActiveUserModel> ActiveUser = new();
     private static readonly ConcurrentDictionary<string, VideoCallDetail> VideoCall = new();
+    private static readonly ConcurrentDictionary<string, VideoCallDetail> AdminVideoCall = new();
     private static readonly ConcurrentDictionary<string,RtcChatDetail> RtcChat = new();
 
 
@@ -38,12 +39,21 @@ public class CallInMemory : ICallMemory
     }
 
     public VideoCallDetail GetVideoCall(string guid) => VideoCall[guid];
+    public VideoCallDetail GetAdminVideoCall(string guid) => AdminVideoCall[guid];
+    public IEnumerable<VideoCallDetail> GetAllAdminVideoCall() => AdminVideoCall.Values.ToList();
 
     public void AddVideoCall(VideoCallDetail videoCallDetail)
     {
         if (VideoCall.ContainsKey(videoCallDetail.Guid))
             VideoCall.Remove(videoCallDetail.Guid, out var t);
         VideoCall.TryAdd(videoCallDetail.Guid, videoCallDetail);
+    }
+    
+    public void AddAdminVideoCall(VideoCallDetail videoCallDetail)
+    {
+        if (AdminVideoCall.ContainsKey(videoCallDetail.Guid))
+            AdminVideoCall.Remove(videoCallDetail.Guid, out var t);
+        AdminVideoCall.TryAdd(videoCallDetail.Guid, videoCallDetail);
     }
     
     public RtcChatDetail GetRtcChat(string guid) => RtcChat[guid];

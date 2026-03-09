@@ -21,24 +21,39 @@ public class CallHub(ICallMemory memory, IUserRepository repository) : Hub<ICall
         var photo = claims.FirstOrDefault(mm => mm.Type == UserClaimType.ProfilPictur)?.Value ?? "";
         var callerId = Context.User?.Claims.First(mm => mm.Type == UserClaimType.Id).Value;
 
-
-        var receiver = memory.GetConnectionById(userId);
-        if (receiver == null)
+        ActiveUserModel? receiver = null;
+        if (Convert.ToInt32(userId) > 0)
         {
-            await Clients.Caller.EndOfferVideoCallHandle("NotActive");
-            return;
+            receiver = memory.GetConnectionById(userId);
+            if (receiver == null)
+            {
+                await Clients.Caller.EndOfferVideoCallHandle("NotActive");
+                return;
+            }
+            memory.AddVideoCall(new()
+            {
+                Guid = guid,
+                FromUserId = callerId,
+                ToUserId = userId,
+                Status = "Pending"
+            });
+
+            await Clients.Client(receiver.ConnectionId).StartOfferVideoCallHandle(name, photo, callerId, guid);
         }
 
-
-        memory.AddVideoCall(new()
+        else
         {
-            Guid = guid,
-            FromUserId = callerId,
-            ToUserId = userId,
-            Status = "Pending"
-        });
-
-        await Clients.Client(receiver.ConnectionId).StartOfferVideoCallHandle(name, photo, callerId, guid);
+            receiver = new ActiveUserModel() { Name = "Admin", UserId = "-1" };
+            memory.AddAdminVideoCall(new()
+            {
+                Guid = guid,
+                FromUserId = callerId,
+                ToUserId = userId,
+                Status = "Pending"
+            });
+           
+            await Clients.Client(receiver.ConnectionId).StartOfferAdminVideoCallHandle(memory.GetAllAdminVideoCall());
+        }
     }
 
     public async Task EndOfferVideoCall(string guid, string result)
@@ -64,7 +79,7 @@ public class CallHub(ICallMemory memory, IUserRepository repository) : Hub<ICall
     }
 
 
-    public async Task VideoRtcSignal(string guid,  dynamic data)
+    public async Task VideoRtcSignal(string guid, dynamic data)
     {
         var callerId = Context.User?.Claims.First(mm => mm.Type == UserClaimType.Id).Value;
 
@@ -72,19 +87,19 @@ public class CallHub(ICallMemory memory, IUserRepository repository) : Hub<ICall
         if (callerId == d.FromUserId)
         {
             var toUser = memory.GetConnectionById(d.ToUserId);
-            await Clients.Client(toUser.ConnectionId).VideoRtcSignalHandle( data);
+            await Clients.Client(toUser.ConnectionId).VideoRtcSignalHandle(data);
         }
         else
         {
             var fromUser = memory.GetConnectionById(d.FromUserId);
-            await Clients.Client(fromUser.ConnectionId).VideoRtcSignalHandle( data);
+            await Clients.Client(fromUser.ConnectionId).VideoRtcSignalHandle(data);
         }
     }
 
 
     #region RtcChat
 
-    public async Task StartOfferRtcChat(string userId, string guid,string publicKey)
+    public async Task StartOfferRtcChat(string userId, string guid, string publicKey)
     {
         var callerEmail = Context.User?.Claims.First(mm => mm.Type == UserClaimType.Email).Value;
         if (callerEmail == null)
@@ -112,7 +127,7 @@ public class CallHub(ICallMemory memory, IUserRepository repository) : Hub<ICall
             Status = "Pending"
         });
 
-        await Clients.Client(receiver.ConnectionId).StartOfferRtcChatHandle(name, photo, callerId, guid,publicKey);
+        await Clients.Client(receiver.ConnectionId).StartOfferRtcChatHandle(name, photo, callerId, guid, publicKey);
     }
 
     public async Task EndOfferRtcChat(string guid, string result)
@@ -127,7 +142,7 @@ public class CallHub(ICallMemory memory, IUserRepository repository) : Hub<ICall
             await Clients.Client(toUser.ConnectionId).EndOfferRtcChatHandle(result);
     }
 
-    public async Task AcceptRtcChat(string guid,string publicKey)
+    public async Task AcceptRtcChat(string guid, string publicKey)
     {
         var d = memory.GetRtcChat(guid);
 
